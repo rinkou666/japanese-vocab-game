@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>日本語語彙マッチ</title>
+  <link rel="stylesheet" href="./css/styles.css?v=9">
+</head>
+<body>
+  <main class="app">
+    <section class="screen active" id="mapScreen">
+      <header class="topbar">
+        <h1>日本語語彙マッチ</h1>
+      </header>
+
+      <section class="map-path" id="stageMap" aria-label="N5至N4关卡地图"></section>
+    </section>
+
+    <section class="screen" id="gameScreen">
+      <header class="topbar">
+        <button class="icon-button" id="backToMapButton" type="button">地图</button>
+        <h1 id="gameTitle">N5 第1关</h1>
+        <div class="score-chip"><span id="matchedCount">0</span>/<span id="stageWordCount">20</span></div>
+      </header>
+
+      <section class="hud" aria-label="倒计时">
+        <div class="progress-shell">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="timer" id="timer">90s</div>
+      </section>
+
+      <section class="board" aria-label="单词配对棋盘">
+        <div class="column" id="jpColumn" aria-label="日语单词"></div>
+        <div class="column" id="cnColumn" aria-label="中文意思"></div>
+      </section>
+    </section>
+
+    <section class="screen" id="profileScreen">
+      <header class="topbar">
+        <h1>我的</h1>
+      </header>
+      <section class="profile-grid">
+        <div class="profile-card"><strong id="todayCleared">0</strong><span>今日通关数</span></div>
+        <div class="profile-card"><strong id="todayStars">0</strong><span>今日星星数</span></div>
+        <div class="profile-card"><strong id="totalCleared">0</strong><span>总通关数</span></div>
+        <div class="profile-card"><strong id="totalStars">0</strong><span>总星星数</span></div>
+      </section>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="底部导航">
+    <button class="nav-button active" id="homeNavButton" type="button">
+      <span class="nav-icon" aria-hidden="true">⌂</span>
+      主页
+    </button>
+    <button class="nav-button" id="profileNavButton" type="button">
+      <span class="nav-icon" aria-hidden="true">●</span>
+      我的
+    </button>
+  </nav>
+
+  <section class="modal-screen" id="resultScreen" aria-live="polite">
+    <div class="result-card">
+      <div class="result-hero">
+        <div class="mascot" aria-hidden="true">✓</div>
+        <div class="result-stars" id="stars"></div>
+        <h2 id="resultTitle">完成！</h2>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <strong id="accuracy">100%</strong>
+          <span>正确率</span>
+        </div>
+        <div class="stat-card">
+          <strong id="finishTime">0s</strong>
+          <span>完成时间</span>
+        </div>
+        <div class="stat-card">
+          <strong id="finalScore">0/20</strong>
+          <span>完成词数</span>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button class="secondary-button" id="againButton" type="button">再来一次</button>
+        <button class="primary-button" id="nextButton" type="button">下一关</button>
+        <button class="secondary-button" id="resultMapButton" type="button">返回地图</button>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="./js/app.js?v=9"></script>
+</body>
+</html>
