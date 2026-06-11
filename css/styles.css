@@ -5,12 +5,13 @@
   --ink: #263238;
   --muted: #6b7280;
   --line: #e5e7eb;
-  --bg: #f5f5f7;
+  --bg: #ffffff;
   --danger: #ff4b4b;
   --gold: #ffc800;
   --shadow: 0 10px 22px rgba(31, 41, 55, 0.1);
   --shadow-hover: 0 14px 28px rgba(31, 41, 55, 0.14);
-  --bar-height: 45px;
+  --topbar-height: 56px;
+  --bottom-nav-height: 64px;
 }
 
 * { box-sizing: border-box; }
@@ -28,10 +29,10 @@ body {
 button { font: inherit; }
 
 .app {
-  width: min(980px, calc(100% - 28px));
+  width: min(980px, calc(100% - 32px));
   min-height: 100vh;
   margin: 0 auto;
-  padding: calc(var(--bar-height) + 16px) 0 calc(var(--bar-height) + 16px);
+  padding: calc(var(--topbar-height) + 16px) 0 calc(var(--bottom-nav-height) + 16px);
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -45,7 +46,7 @@ button { font: inherit; }
   inset: 0;
   z-index: 1;
   width: 100%;
-  padding: var(--bar-height) 0;
+  padding: var(--topbar-height) 0 var(--bottom-nav-height);
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior-y: contain;
@@ -58,7 +59,7 @@ button { font: inherit; }
   left: 0;
   z-index: 8;
   width: 100%;
-  height: var(--bar-height);
+  height: var(--topbar-height);
   display: grid;
   grid-template-columns: 110px 1fr 110px;
   gap: 8px;
@@ -76,7 +77,7 @@ button { font: inherit; }
   grid-column: 2;
   margin: 0;
   text-align: center;
-  font-size: clamp(20px, 3vw, 24px);
+  font-size: 24px;
   line-height: 1.08;
   letter-spacing: 0;
 }
@@ -85,7 +86,7 @@ button { font: inherit; }
 .score-chip,
 .primary-button,
 .secondary-button {
-  border-radius: 10px;
+  border-radius: 16px;
   border: 2px solid #d9e3ea;
   border-bottom-width: 5px;
   background: #fff;
@@ -124,7 +125,7 @@ button { font: inherit; }
 .result-card {
   border: 2px solid #d9e3ea;
   border-bottom-width: 5px;
-  border-radius: 10px;
+  border-radius: 16px;
   background: #fff;
   box-shadow: var(--shadow);
 }
@@ -195,7 +196,7 @@ button { font: inherit; }
   display: grid;
   place-items: center;
   border: 4px solid #fff;
-  border-radius: 12px;
+  border-radius: 16px;
   background: var(--green);
   color: #fff;
   box-shadow: 0 6px 0 var(--green-dark), 0 10px 18px rgba(31, 41, 55, 0.14);
@@ -259,7 +260,7 @@ button { font: inherit; }
   left: 0;
   bottom: 0;
   width: 100%;
-  height: var(--bar-height);
+  height: var(--bottom-nav-height);
   padding: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -279,11 +280,11 @@ body.game-active .bottom-nav {
 .nav-button {
   min-height: 40px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 16px;
   background: transparent;
   color: var(--muted);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -295,7 +296,7 @@ body.game-active .bottom-nav {
 .nav-icon {
   display: block;
   margin-bottom: 1px;
-  font-size: 16px;
+  font-size: 24px;
   line-height: 1;
 }
 
@@ -306,7 +307,7 @@ body.game-active .bottom-nav {
   align-items: center;
   padding: 14px;
   border: 2px solid var(--line);
-  border-radius: 10px;
+  border-radius: 16px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: var(--shadow);
 }
@@ -360,7 +361,7 @@ body.game-active .bottom-nav {
   min-height: 78px;
   border: 2px solid #d9e3ea;
   border-bottom-width: 5px;
-  border-radius: 12px;
+  border-radius: 16px;
   background: #fff;
   color: var(--ink);
   cursor: pointer;
@@ -490,7 +491,7 @@ body.game-active .bottom-nav {
   padding: 12px 8px;
   border: 2px solid #d9e3ea;
   border-bottom-width: 5px;
-  border-radius: 10px;
+  border-radius: 16px;
   background: #fff;
   box-shadow: var(--shadow);
 }
@@ -547,7 +548,7 @@ body.game-active .bottom-nav {
   padding: 18px;
   border: 2px solid #d9e3ea;
   border-bottom-width: 5px;
-  border-radius: 10px;
+  border-radius: 16px;
   background: #fff;
   box-shadow: var(--shadow);
 }
@@ -590,8 +591,8 @@ body.game-active .bottom-nav {
 
 @media (max-width: 720px) {
   .app {
-    width: min(100% - 18px, 520px);
-    padding: calc(var(--bar-height) + 12px) 0 calc(var(--bar-height) + 12px);
+    width: min(100% - 32px, 520px);
+    padding: calc(var(--topbar-height) + 12px) 0 calc(var(--bottom-nav-height) + 12px);
     gap: 12px;
   }
 
@@ -616,7 +617,7 @@ body.game-active .bottom-nav {
 
   #gameScreen .topbar h1 {
     grid-column: 2;
-    font-size: 20px;
+    font-size: 24px;
     white-space: nowrap;
   }
 
@@ -652,8 +653,8 @@ body.game-active .bottom-nav {
   }
 
   #mapScreen.active {
-    padding-top: var(--bar-height);
-    padding-bottom: var(--bar-height);
+    padding-top: var(--topbar-height);
+    padding-bottom: var(--bottom-nav-height);
   }
 
   .path-step.position-right {

@@ -1,5 +1,6 @@
 import { N5_SOURCE_WORDS } from "../data/n5.js";
 import { N4_SOURCE_WORDS } from "../data/n4.js";
+import { N3_SOURCE_WORDS } from "../data/n3.js";
 import { buildStages, normalizeWords } from "./stages.js";
 import { createProgressStorage } from "./storage.js";
 
@@ -11,7 +12,16 @@ const progressStorage = createProgressStorage(STORAGE_KEY);
 
 const n5Stages = buildStages(normalizeWords(N5_SOURCE_WORDS), WORDS_PER_STAGE);
 const n4Stages = buildStages(normalizeWords(N4_SOURCE_WORDS), WORDS_PER_STAGE, n5Stages.length + 1);
-const stages = [...n5Stages, ...n4Stages];
+const n3Stages = buildStages(
+  normalizeWords(N3_SOURCE_WORDS),
+  WORDS_PER_STAGE,
+  n5Stages.length + n4Stages.length + 1
+);
+const stages = [...n5Stages, ...n4Stages, ...n3Stages];
+const firstStageNumberByLevel = new Map([
+  ["N4", n4Stages[0]?.number],
+  ["N3", n3Stages[0]?.number]
+]);
 const stageIndexById = new Map(stages.map((stage, index) => [stage.id, index]));
 
 const screens = {
@@ -106,11 +116,11 @@ function renderMap() {
     node.addEventListener("click", () => startStage(stage));
     step.appendChild(node);
 
-    if (stage.level === "N4" && stage.number === n5Stages.length + 1) {
+    if (firstStageNumberByLevel.get(stage.level) === stage.number) {
       const badge = document.createElement("div");
       badge.className = "level-badge";
-      badge.textContent = "N4";
-      badge.setAttribute("aria-label", "N4阶段");
+      badge.textContent = stage.level;
+      badge.setAttribute("aria-label", `${stage.level}阶段`);
       step.appendChild(badge);
     }
 
