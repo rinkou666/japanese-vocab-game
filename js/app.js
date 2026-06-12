@@ -1,13 +1,20 @@
 import { N5_SOURCE_WORDS } from "../data/n5.js";
 import { N4_SOURCE_WORDS } from "../data/n4.js";
 import { N3_SOURCE_WORDS } from "../data/n3.js";
+import { N2_SOURCE_WORDS } from "../data/n2.js";
 import { buildStages, normalizeWords } from "./stages.js";
 import { createProgressStorage } from "./storage.js";
 
 const TOTAL_TIME = 90;
 const VISIBLE_ROWS = 6;
 const WORDS_PER_STAGE = 20;
-const STORAGE_KEY = "japanese-vocab-match-progress-v3";
+const STORAGE_KEY = "japanese-vocab-match-progress-v4";
+const LEGACY_STORAGE_KEYS = [
+  "japanese-vocab-match-progress-v1",
+  "japanese-vocab-match-progress-v2",
+  "japanese-vocab-match-progress-v3"
+];
+LEGACY_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
 const progressStorage = createProgressStorage(STORAGE_KEY);
 
 const n5Stages = buildStages(normalizeWords(N5_SOURCE_WORDS), WORDS_PER_STAGE);
@@ -17,10 +24,16 @@ const n3Stages = buildStages(
   WORDS_PER_STAGE,
   n5Stages.length + n4Stages.length + 1
 );
-const stages = [...n5Stages, ...n4Stages, ...n3Stages];
+const n2Stages = buildStages(
+  normalizeWords(N2_SOURCE_WORDS),
+  WORDS_PER_STAGE,
+  n5Stages.length + n4Stages.length + n3Stages.length + 1
+);
+const stages = [...n5Stages, ...n4Stages, ...n3Stages, ...n2Stages];
 const firstStageNumberByLevel = new Map([
   ["N4", n4Stages[0]?.number],
-  ["N3", n3Stages[0]?.number]
+  ["N3", n3Stages[0]?.number],
+  ["N2", n2Stages[0]?.number]
 ]);
 const stageIndexById = new Map(stages.map((stage, index) => [stage.id, index]));
 

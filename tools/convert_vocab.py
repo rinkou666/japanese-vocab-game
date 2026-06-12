@@ -19,6 +19,7 @@ LEVEL_LIMITS = {
     "N5": 1120,  # Keep the established 56 complete N5 stages.
     "N4": None,
     "N3": None,
+    "N2": None,
 }
 
 MAIN_NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
