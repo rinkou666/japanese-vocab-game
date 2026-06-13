@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>日本語語彙マッチ</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./css/styles.css?v=12">
+  <link rel="stylesheet" href="./css/styles.css?v=14">
 </head>
 <body>
   <main class="app">
@@ -41,23 +41,77 @@
       <header class="topbar">
         <h1>我的</h1>
       </header>
-      <section class="profile-grid">
-        <div class="profile-card"><strong id="todayCleared">0</strong><span>今日通关数</span></div>
-        <div class="profile-card"><strong id="todayStars">0</strong><span>今日星星数</span></div>
-        <div class="profile-card"><strong id="totalCleared">0</strong><span>总通关数</span></div>
-        <div class="profile-card"><strong id="totalStars">0</strong><span>总星星数</span></div>
+      <section class="journey-progress" aria-label="总通关进度">
+        <div class="journey-heading">
+          <span>进度</span>
+          <strong><span id="journeyCleared">0</span> / <span id="journeyTotal">308</span></strong>
+        </div>
+        <div class="journey-track-wrap">
+          <div class="journey-marker journey-orange" id="journeyMarker" aria-hidden="true">
+            <span class="orange-leaf"></span>
+          </div>
+          <div class="journey-track">
+            <div class="journey-fill" id="journeyFill"></div>
+          </div>
+        </div>
+        <div class="journey-levels" id="journeyLevels" aria-hidden="true"></div>
+      </section>
+      <section class="profile-summary" aria-label="通关统计">
+        <div class="summary-group">
+          <h2>今日</h2>
+          <div class="summary-card">
+            <div><span>通关数</span><strong id="todayCleared">0</strong></div>
+            <div><span>星星数</span><strong id="todayStars">0</strong></div>
+          </div>
+        </div>
+        <div class="summary-group">
+          <h2>累计</h2>
+          <div class="summary-card">
+            <div><span>通关数</span><strong id="totalCleared">0</strong></div>
+            <div><span>星星数</span><strong id="totalStars">0</strong></div>
+          </div>
+        </div>
+      </section>
+      <section class="hidden-progress" aria-label="隐藏关卡进度">
+        <div class="journey-heading">
+          <span>隐藏关卡</span>
+          <strong><span id="hiddenCleared">0</span> / <span id="hiddenTotal">30</span></strong>
+        </div>
+        <div class="hidden-track-wrap">
+          <div class="hidden-marker" id="hiddenMarker" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12.8A8.4 8.4 0 1 1 11.2 3 6.5 6.5 0 0 0 21 12.8Z"></path>
+            </svg>
+          </div>
+          <div class="hidden-track">
+            <div class="hidden-fill" id="hiddenFill"></div>
+          </div>
+          <div class="hidden-finish" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"></path>
+              <path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"></path>
+            </svg>
+          </div>
+        </div>
       </section>
     </section>
   </main>
 
   <nav class="bottom-nav" id="bottomNav" aria-label="底部导航">
     <button class="nav-button active" id="homeNavButton" type="button">
-      <span class="nav-icon" aria-hidden="true">⌂</span>
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m3 11 9-8 9 8"></path>
+        <path d="M5 10v10h14V10"></path>
+        <path d="M9 20v-6h6v6"></path>
+      </svg>
       主页
     </button>
     <button class="nav-button" id="profileNavButton" type="button">
-      <span class="nav-icon" aria-hidden="true">●</span>
-      我的
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="8" r="4"></circle>
+        <path d="M4 21a8 8 0 0 1 16 0"></path>
+      </svg>
+      我
     </button>
   </nav>
 
@@ -90,6 +144,6 @@
     </div>
   </section>
 
-  <script type="module" src="./js/app.js?v=12"></script>
+  <script type="module" src="./js/app.js?v=14"></script>
 </body>
 </html>

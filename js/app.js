@@ -8,6 +8,7 @@ import { createProgressStorage } from "./storage.js";
 const TOTAL_TIME = 90;
 const VISIBLE_ROWS = 6;
 const WORDS_PER_STAGE = 20;
+const HIDDEN_STAGE_TOTAL = 30;
 const STORAGE_KEY = "japanese-vocab-match-progress-v4";
 const LEGACY_STORAGE_KEYS = [
   "japanese-vocab-match-progress-v1",
@@ -31,6 +32,7 @@ const n2Stages = buildStages(
 );
 const stages = [...n5Stages, ...n4Stages, ...n3Stages, ...n2Stages];
 const firstStageNumberByLevel = new Map([
+  ["N5", n5Stages[0]?.number],
   ["N4", n4Stages[0]?.number],
   ["N3", n3Stages[0]?.number],
   ["N2", n2Stages[0]?.number]
@@ -70,6 +72,15 @@ const todayClearedEl = document.querySelector("#todayCleared");
 const todayStarsEl = document.querySelector("#todayStars");
 const totalClearedEl = document.querySelector("#totalCleared");
 const totalStarsEl = document.querySelector("#totalStars");
+const journeyClearedEl = document.querySelector("#journeyCleared");
+const journeyTotalEl = document.querySelector("#journeyTotal");
+const journeyFillEl = document.querySelector("#journeyFill");
+const journeyMarkerEl = document.querySelector("#journeyMarker");
+const journeyLevelsEl = document.querySelector("#journeyLevels");
+const hiddenClearedEl = document.querySelector("#hiddenCleared");
+const hiddenTotalEl = document.querySelector("#hiddenTotal");
+const hiddenFillEl = document.querySelector("#hiddenFill");
+const hiddenMarkerEl = document.querySelector("#hiddenMarker");
 
 let progress = progressStorage.load();
 let currentStage = stages[0];
@@ -131,8 +142,8 @@ function renderMap() {
 
     if (firstStageNumberByLevel.get(stage.level) === stage.number) {
       const badge = document.createElement("div");
-      badge.className = "level-badge";
-      badge.textContent = stage.level;
+      badge.className = "level-flag";
+      badge.innerHTML = `<span>${stage.level}</span>`;
       badge.setAttribute("aria-label", `${stage.level}阶段`);
       step.appendChild(badge);
     }
@@ -198,6 +209,49 @@ function renderProfile() {
   todayStarsEl.textContent = progress.todayStars;
   totalClearedEl.textContent = progress.totalCleared;
   totalStarsEl.textContent = progress.totalStars;
+  renderJourneyProgress();
+}
+
+function renderJourneyProgress() {
+  const totalStages = stages.length;
+  const clearedStages = stages.filter((stage) => getStageStars(stage.id) > 0).length;
+  const progressPercent = totalStages === 0 ? 0 : (clearedStages / totalStages) * 100;
+
+  journeyClearedEl.textContent = clearedStages;
+  journeyTotalEl.textContent = totalStages;
+  journeyFillEl.style.width = `${progressPercent}%`;
+  setMarkerPosition(journeyMarkerEl, progressPercent);
+
+  const levelGroups = [
+    { level: "N5", count: n5Stages.length },
+    { level: "N4", count: n4Stages.length },
+    { level: "N3", count: n3Stages.length },
+    { level: "N2", count: n2Stages.length }
+  ];
+  let completedBefore = 0;
+  journeyLevelsEl.innerHTML = levelGroups.map(({ level, count }) => {
+    const centerPercent = ((completedBefore + count / 2) / totalStages) * 100;
+    completedBefore += count;
+    return `<span style="left:${centerPercent}%">${level}</span>`;
+  }).join("");
+
+  const hiddenCleared = Object.values(progress.hiddenStages || {})
+    .filter((stage) => (stage?.stars || 0) > 0).length;
+  const hiddenPercent = (hiddenCleared / HIDDEN_STAGE_TOTAL) * 100;
+  hiddenClearedEl.textContent = hiddenCleared;
+  hiddenTotalEl.textContent = HIDDEN_STAGE_TOTAL;
+  hiddenFillEl.style.width = `${hiddenPercent}%`;
+  setMarkerPosition(hiddenMarkerEl, hiddenPercent);
+}
+
+function setMarkerPosition(element, percent) {
+  if (percent <= 0) {
+    element.style.left = "18px";
+  } else if (percent >= 100) {
+    element.style.left = "calc(100% - 18px)";
+  } else {
+    element.style.left = `${percent}%`;
+  }
 }
 
 function getStageStars(stageId) {

@@ -187,22 +187,62 @@ button { font: inherit; }
   margin-bottom: 0;
 }
 
-.level-badge {
+.level-flag {
   position: absolute;
-  left: -66px;
-  top: 0;
-  width: 72px;
-  height: 72px;
+  left: -58px;
+  top: 3px;
+  width: 54px;
+  height: 62px;
+  color: #fff;
+  filter: drop-shadow(0 5px 7px rgba(31, 41, 55, 0.14));
+  pointer-events: none;
+}
+
+.level-flag::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 3px;
+  width: 4px;
+  height: 58px;
+  border-radius: 999px;
+  background: #87929a;
+}
+
+.level-flag::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  bottom: 0;
+  width: 10px;
+  height: 4px;
+  border-radius: 999px;
+  background: #87929a;
+}
+
+.level-flag span {
+  position: absolute;
+  left: 7px;
+  top: 2px;
+  width: 46px;
+  height: 34px;
   display: grid;
   place-items: center;
-  border: 4px solid #fff;
-  border-radius: 16px;
+  border-radius: 5px 8px 8px 3px;
   background: var(--green);
-  color: #fff;
-  box-shadow: 0 6px 0 var(--green-dark), 0 10px 18px rgba(31, 41, 55, 0.14);
-  font-size: 22px;
-  font-weight: 900;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+  font-size: 16px;
+  font-weight: 800;
   line-height: 1;
+}
+
+.level-flag span::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  border-top: 8px solid transparent;
+  border-right: 7px solid #fff;
 }
 
 .stage-node {
@@ -295,9 +335,14 @@ body.game-active .bottom-nav {
 
 .nav-icon {
   display: block;
-  margin-bottom: 1px;
-  font-size: 24px;
-  line-height: 1;
+  width: 24px;
+  height: 24px;
+  margin: 0 auto 1px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .hud {
@@ -535,17 +580,18 @@ body.game-active .bottom-nav {
   background: #fff;
 }
 
-.profile-grid {
+.profile-summary {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   width: min(620px, 100%);
-  margin: 24px auto 0;
+  margin: 0 auto;
 }
 
-.profile-card,
-.setting-card {
-  padding: 18px;
+.journey-progress {
+  width: min(620px, 100%);
+  margin: 24px auto 6px;
+  padding: 20px 20px 18px;
   border: 2px solid #d9e3ea;
   border-bottom-width: 5px;
   border-radius: 16px;
@@ -553,32 +599,216 @@ body.game-active .bottom-nav {
   box-shadow: var(--shadow);
 }
 
-.profile-card strong {
-  order: 2;
+.journey-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.journey-heading strong {
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.journey-track-wrap {
+  position: relative;
+  margin-top: 30px;
+  padding-top: 10px;
+}
+
+.journey-track {
+  position: relative;
+  height: 18px;
+  overflow: hidden;
+  border: 2px solid #c8ead4;
+  border-radius: 999px;
+  background: #ddf3e4;
+}
+
+.journey-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: #ff9500;
+  transition: width 0.45s ease;
+}
+
+.journey-marker {
+  position: absolute;
+  z-index: 2;
+  top: -18px;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #ff9500;
+  box-shadow: inset 0 -4px 0 rgba(190, 94, 0, 0.18), 0 4px 10px rgba(180, 88, 0, 0.2);
+  transition: left 0.45s ease;
+}
+
+.journey-orange::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.82);
+  border-radius: 50%;
+}
+
+.orange-leaf {
+  position: absolute;
+  top: -5px;
+  left: 20px;
+  width: 11px;
+  height: 7px;
+  transform: rotate(-22deg);
+  border-radius: 9px 2px 9px 2px;
+  background: #58a83a;
+}
+
+.journey-levels {
+  position: relative;
+  height: 22px;
+  margin-top: 7px;
+}
+
+.journey-levels span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.summary-group h2 {
+  margin: 0 0 7px 4px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.summary-card,
+.hidden-progress {
+  border: 2px solid #d9e3ea;
+  border-bottom-width: 5px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.summary-card {
+  min-height: 128px;
+  padding: 14px 16px;
+  display: grid;
+  align-content: center;
+  gap: 0;
+}
+
+.summary-card > div {
+  min-width: 0;
+  padding: 13px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-card > div + div {
+  border-top: 1px solid var(--line);
+}
+
+.summary-card span {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.summary-card strong {
   margin-left: auto;
-  font-size: 24px;
+  color: var(--ink);
+  font-size: 23px;
+  font-weight: 600;
   line-height: 1;
 }
 
-.profile-card span,
-.setting-card p {
-  color: var(--muted);
+.hidden-progress {
+  width: min(620px, 100%);
+  margin: 6px auto 0;
+  padding: 20px 20px 22px;
+}
+
+.hidden-track-wrap {
+  position: relative;
+  margin-top: 28px;
+  padding: 9px 38px 0 0;
+}
+
+.hidden-track {
+  height: 18px;
+  overflow: hidden;
+  border: 2px solid #bfdced;
+  border-radius: 999px;
+  background: #dceef8;
+}
+
+.hidden-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: #ffc800;
+  transition: width 0.45s ease;
+}
+
+.hidden-marker,
+.hidden-finish {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  color: #d59f00;
+}
+
+.hidden-marker {
+  top: -15px;
+  left: 18px;
+  width: 36px;
+  height: 36px;
+  transform: translateX(-50%);
+  border: 2px solid #ffe176;
+  border-radius: 50%;
+  background: #fff9dc;
+  box-shadow: 0 4px 10px rgba(100, 117, 164, 0.16);
+  transition: left 0.45s ease;
+}
+
+.hidden-finish {
+  right: 0;
+  top: -12px;
+  width: 32px;
+  height: 32px;
+  color: #e1ac00;
+}
+
+.hidden-marker svg,
+.hidden-finish svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 #profileScreen .topbar h1 {
   grid-column: 1 / -1;
   text-align: left;
-}
-
-.profile-card {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.profile-card span {
-  order: 1;
-  font-size: 16px;
 }
 
 @keyframes shake {
@@ -642,9 +872,27 @@ body.game-active .bottom-nav {
     margin-top: 8px;
   }
 
-  .profile-grid,
   .result-actions {
     grid-template-columns: 1fr;
+  }
+
+  .journey-progress,
+  .hidden-progress {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .summary-card {
+    min-height: 118px;
+    padding: 10px 13px;
+  }
+
+  .summary-card span {
+    font-size: 14px;
+  }
+
+  .summary-card strong {
+    font-size: 21px;
   }
 
   .map-path {
