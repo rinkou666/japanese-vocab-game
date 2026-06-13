@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>日本語語彙マッチ</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./css/styles.css?v=15">
+  <link rel="stylesheet" href="./css/styles.css?v=16">
 </head>
 <body>
   <main class="app">
@@ -78,19 +78,11 @@
           <strong><span id="hiddenCleared">0</span> / <span id="hiddenTotal">30</span></strong>
         </div>
         <div class="hidden-track-wrap">
-          <div class="hidden-marker" id="hiddenMarker" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="M21 12.8A8.4 8.4 0 1 1 11.2 3 6.5 6.5 0 0 0 21 12.8Z"></path>
-            </svg>
+          <div class="hidden-marker journey-orange" id="hiddenMarker" aria-hidden="true">
+            <span class="orange-leaf"></span>
           </div>
           <div class="hidden-track">
             <div class="hidden-fill" id="hiddenFill"></div>
-          </div>
-          <div class="hidden-finish" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="4"></circle>
-              <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
-            </svg>
           </div>
         </div>
       </section>
@@ -144,6 +136,6 @@
     </div>
   </section>
 
-  <script type="module" src="./js/app.js?v=15"></script>
+  <script type="module" src="./js/app.js?v=16"></script>
 </body>
 </html>
