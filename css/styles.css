@@ -189,10 +189,10 @@ button { font: inherit; }
 
 .level-flag {
   position: absolute;
-  left: -58px;
-  top: 3px;
+  left: -56px;
+  top: 8px;
   width: 54px;
-  height: 62px;
+  height: 56px;
   color: #fff;
   filter: drop-shadow(0 5px 7px rgba(31, 41, 55, 0.14));
   pointer-events: none;
@@ -202,9 +202,9 @@ button { font: inherit; }
   content: "";
   position: absolute;
   left: 4px;
-  top: 3px;
+  top: 0;
   width: 4px;
-  height: 58px;
+  height: 56px;
   border-radius: 999px;
   background: #87929a;
 }
@@ -222,16 +222,17 @@ button { font: inherit; }
 
 .level-flag span {
   position: absolute;
-  left: 7px;
-  top: 2px;
-  width: 46px;
-  height: 34px;
+  left: 8px;
+  top: 14px;
+  width: 44px;
+  height: 28px;
   display: grid;
   place-items: center;
-  border-radius: 5px 8px 8px 3px;
-  background: var(--green);
-  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.12);
-  font-size: 16px;
+  padding-right: 9px;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  background: #ff9500;
+  text-shadow: 0 1px 1px rgba(161, 72, 0, 0.35);
+  font-size: 14px;
   font-weight: 800;
   line-height: 1;
 }
@@ -239,10 +240,9 @@ button { font: inherit; }
 .level-flag span::after {
   content: "";
   position: absolute;
-  right: -1px;
-  bottom: -1px;
-  border-top: 8px solid transparent;
-  border-right: 7px solid #fff;
+  inset: 3px 12px 3px 3px;
+  clip-path: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.38);
 }
 
 .stage-node {
@@ -256,16 +256,25 @@ button { font: inherit; }
   gap: 2px;
   border: 4px solid #fff;
   border-radius: 50%;
-  background: var(--green);
+  background: #9bd9bd;
   color: #fff;
-  box-shadow: 0 6px 0 var(--green-dark), 0 10px 18px rgba(31, 41, 55, 0.14);
+  box-shadow: 0 6px 0 #68b793, 0 10px 18px rgba(31, 41, 55, 0.14);
   cursor: pointer;
   transition: transform 0.14s ease, box-shadow 0.14s ease, opacity 0.14s ease;
 }
 
 .stage-node:hover:not(:disabled) {
   transform: translateY(-3px);
-  box-shadow: 0 8px 0 var(--green-dark), 0 14px 24px rgba(31, 41, 55, 0.18);
+  box-shadow: 0 8px 0 #68b793, 0 14px 24px rgba(31, 41, 55, 0.18);
+}
+
+.path-step.completed .stage-node {
+  background: #ff9500;
+  box-shadow: 0 6px 0 #c96f00, 0 10px 18px rgba(31, 41, 55, 0.14);
+}
+
+.path-step.completed .stage-node:hover:not(:disabled) {
+  box-shadow: 0 8px 0 #c96f00, 0 14px 24px rgba(31, 41, 55, 0.18);
 }
 
 .stage-node:disabled {
@@ -283,7 +292,7 @@ button { font: inherit; }
 
 .stage-stars {
   min-height: 11px;
-  color: rgba(255, 255, 255, 0.52);
+  color: rgba(53, 115, 88, 0.45);
   font-size: 10px;
   line-height: 1;
   letter-spacing: 0;
@@ -292,6 +301,15 @@ button { font: inherit; }
 
 .stage-stars .earned {
   color: var(--gold);
+}
+
+.path-step.completed .stage-stars {
+  color: rgba(143, 69, 0, 0.48);
+}
+
+.path-step.completed .stage-stars .earned {
+  color: #fff4c2;
+  text-shadow: 0 1px 1px rgba(145, 66, 0, 0.45);
 }
 
 .bottom-nav {
@@ -591,7 +609,7 @@ body.game-active .bottom-nav {
 .journey-progress {
   width: min(620px, 100%);
   margin: 24px auto 6px;
-  padding: 20px 20px 18px;
+  padding: 16px 20px 13px;
   border: 2px solid #d9e3ea;
   border-bottom-width: 5px;
   border-radius: 16px;
@@ -617,8 +635,7 @@ body.game-active .bottom-nav {
 
 .journey-track-wrap {
   position: relative;
-  margin-top: 30px;
-  padding-top: 10px;
+  margin-top: 14px;
 }
 
 .journey-track {
@@ -641,31 +658,31 @@ body.game-active .bottom-nav {
 .journey-marker {
   position: absolute;
   z-index: 2;
-  top: -18px;
+  top: 0;
   left: 0;
-  width: 36px;
-  height: 36px;
+  width: 18px;
+  height: 18px;
   transform: translateX(-50%);
   border-radius: 50%;
   background: #ff9500;
-  box-shadow: inset 0 -4px 0 rgba(190, 94, 0, 0.18), 0 4px 10px rgba(180, 88, 0, 0.2);
+  box-shadow: inset 0 -2px 0 rgba(190, 94, 0, 0.18);
   transition: left 0.45s ease;
 }
 
 .journey-orange::before {
   content: "";
   position: absolute;
-  inset: 6px;
-  border: 2px solid rgba(255, 255, 255, 0.82);
+  inset: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.82);
   border-radius: 50%;
 }
 
 .orange-leaf {
   position: absolute;
-  top: -5px;
-  left: 20px;
-  width: 11px;
-  height: 7px;
+  top: 1px;
+  left: 10px;
+  width: 6px;
+  height: 4px;
   transform: rotate(-22deg);
   border-radius: 9px 2px 9px 2px;
   background: #58a83a;
@@ -740,13 +757,12 @@ body.game-active .bottom-nav {
 .hidden-progress {
   width: min(620px, 100%);
   margin: 6px auto 0;
-  padding: 20px 20px 22px;
+  padding: 16px 20px 17px;
 }
 
 .hidden-track-wrap {
   position: relative;
-  margin-top: 28px;
-  padding: 9px 38px 0 0;
+  margin-top: 14px;
 }
 
 .hidden-track {
@@ -775,35 +791,37 @@ body.game-active .bottom-nav {
 }
 
 .hidden-marker {
-  top: -15px;
-  left: 18px;
-  width: 36px;
-  height: 36px;
+  top: 0;
+  left: 9px;
+  width: 18px;
+  height: 18px;
   transform: translateX(-50%);
-  border: 2px solid #ffe176;
-  border-radius: 50%;
-  background: #fff9dc;
-  box-shadow: 0 4px 10px rgba(100, 117, 164, 0.16);
+  color: #b78c00;
   transition: left 0.45s ease;
 }
 
 .hidden-finish {
-  right: 0;
-  top: -12px;
-  width: 32px;
-  height: 32px;
+  right: -1px;
+  top: -2px;
+  width: 22px;
+  height: 22px;
   color: #e1ac00;
 }
 
 .hidden-marker svg,
 .hidden-finish svg {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.hidden-finish svg {
+  width: 21px;
+  height: 21px;
 }
 
 #profileScreen .topbar h1 {

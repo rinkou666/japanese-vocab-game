@@ -121,9 +121,11 @@ function renderMap() {
   displayedStages.forEach((stage, displayIndex) => {
     const stars = getStageStars(stage.id);
     const unlocked = isMapStageUnlocked(stage);
+    const completed = stars > 0;
     const position = positionCycle[displayIndex % positionCycle.length];
     const step = document.createElement("div");
-    step.className = `path-step level-${stage.level.toLowerCase()} position-${position}${unlocked ? "" : " locked"}`;
+    const statusClass = completed ? " completed" : unlocked ? " current" : " locked";
+    step.className = `path-step level-${stage.level.toLowerCase()} position-${position}${statusClass}`;
     step.dataset.stageId = stage.id;
     step.dataset.level = stage.level;
     const node = document.createElement("button");
@@ -199,7 +201,12 @@ function drawMapCurves() {
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.classList.add("path-line");
     path.setAttribute("d", `M ${x1} ${y1} Q ${controlX} ${midY}, ${x2} ${y2}`);
-    path.setAttribute("stroke", upper.classList.contains("locked") ? "#d1d5db" : "#a8df84");
+    const stroke = upper.classList.contains("completed")
+      ? "#ff9500"
+      : upper.classList.contains("current")
+        ? "#9bd9bd"
+        : "#d1d5db";
+    path.setAttribute("stroke", stroke);
     svg.appendChild(path);
   }
 }
@@ -246,9 +253,9 @@ function renderJourneyProgress() {
 
 function setMarkerPosition(element, percent) {
   if (percent <= 0) {
-    element.style.left = "18px";
+    element.style.left = "9px";
   } else if (percent >= 100) {
-    element.style.left = "calc(100% - 18px)";
+    element.style.left = "calc(100% - 9px)";
   } else {
     element.style.left = `${percent}%`;
   }
