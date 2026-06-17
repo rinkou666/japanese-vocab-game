@@ -10,11 +10,12 @@ const TOTAL_TIME = 90;
 const VISIBLE_ROWS = 6;
 const WORDS_PER_STAGE = 20;
 const HIDDEN_STAGE_TOTAL = 30;
-const STORAGE_KEY = "japanese-vocab-match-progress-v4";
+const STORAGE_KEY = "japanese-vocab-match-progress-v5";
 const LEGACY_STORAGE_KEYS = [
   "japanese-vocab-match-progress-v1",
   "japanese-vocab-match-progress-v2",
-  "japanese-vocab-match-progress-v3"
+  "japanese-vocab-match-progress-v3",
+  "japanese-vocab-match-progress-v4"
 ];
 LEGACY_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
 const progressStorage = createProgressStorage(STORAGE_KEY);
