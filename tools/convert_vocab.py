@@ -20,6 +20,7 @@ LEVEL_LIMITS = {
     "N4": None,
     "N3": None,
     "N2": None,
+    "N1": None,
 }
 
 MAIN_NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"

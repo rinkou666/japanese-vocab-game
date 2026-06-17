@@ -2,6 +2,7 @@ import { N5_SOURCE_WORDS } from "../data/n5.js";
 import { N4_SOURCE_WORDS } from "../data/n4.js";
 import { N3_SOURCE_WORDS } from "../data/n3.js";
 import { N2_SOURCE_WORDS } from "../data/n2.js";
+import { N1_SOURCE_WORDS } from "../data/n1.js";
 import { buildStages, normalizeWords } from "./stages.js";
 import { createProgressStorage } from "./storage.js";
 
@@ -30,12 +31,18 @@ const n2Stages = buildStages(
   WORDS_PER_STAGE,
   n5Stages.length + n4Stages.length + n3Stages.length + 1
 );
-const stages = [...n5Stages, ...n4Stages, ...n3Stages, ...n2Stages];
+const n1Stages = buildStages(
+  normalizeWords(N1_SOURCE_WORDS),
+  WORDS_PER_STAGE,
+  n5Stages.length + n4Stages.length + n3Stages.length + n2Stages.length + 1
+);
+const stages = [...n5Stages, ...n4Stages, ...n3Stages, ...n2Stages, ...n1Stages];
 const firstStageNumberByLevel = new Map([
   ["N5", n5Stages[0]?.number],
   ["N4", n4Stages[0]?.number],
   ["N3", n3Stages[0]?.number],
-  ["N2", n2Stages[0]?.number]
+  ["N2", n2Stages[0]?.number],
+  ["N1", n1Stages[0]?.number]
 ]);
 const stageIndexById = new Map(stages.map((stage, index) => [stage.id, index]));
 
@@ -145,7 +152,7 @@ function renderMap() {
     if (firstStageNumberByLevel.get(stage.level) === stage.number) {
       const badge = document.createElement("div");
       badge.className = "level-flag";
-      badge.innerHTML = `<span>${stage.level}</span>`;
+      badge.innerHTML = `<span>${stage.level}</span><i class="flag-base" aria-hidden="true"></i>`;
       badge.setAttribute("aria-label", `${stage.level}阶段`);
       step.appendChild(badge);
     }
@@ -201,11 +208,7 @@ function drawMapCurves() {
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.classList.add("path-line");
     path.setAttribute("d", `M ${x1} ${y1} Q ${controlX} ${midY}, ${x2} ${y2}`);
-    const stroke = upper.classList.contains("completed")
-      ? "#ff9500"
-      : upper.classList.contains("current")
-        ? "#9bd9bd"
-        : "#d1d5db";
+    const stroke = upper.classList.contains("completed") ? "#ff9500" : "#d1d5db";
     path.setAttribute("stroke", stroke);
     svg.appendChild(path);
   }
@@ -233,7 +236,8 @@ function renderJourneyProgress() {
     { level: "N5", count: n5Stages.length },
     { level: "N4", count: n4Stages.length },
     { level: "N3", count: n3Stages.length },
-    { level: "N2", count: n2Stages.length }
+    { level: "N2", count: n2Stages.length },
+    { level: "N1", count: n1Stages.length }
   ];
   let completedBefore = 0;
   journeyLevelsEl.innerHTML = levelGroups.map(({ level, count }) => {

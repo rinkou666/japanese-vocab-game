@@ -10,8 +10,8 @@
   --gold: #ffc800;
   --shadow: 0 10px 22px rgba(31, 41, 55, 0.1);
   --shadow-hover: 0 14px 28px rgba(31, 41, 55, 0.14);
-  --topbar-height: 56px;
-  --bottom-nav-height: 64px;
+  --topbar-height: 52px;
+  --bottom-nav-height: 56px;
 }
 
 * { box-sizing: border-box; }
@@ -77,7 +77,7 @@ button { font: inherit; }
   grid-column: 2;
   margin: 0;
   text-align: center;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1.08;
   letter-spacing: 0;
 }
@@ -147,7 +147,7 @@ button { font: inherit; }
 .path-lines {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
   overflow: visible;
@@ -156,13 +156,13 @@ button { font: inherit; }
 
 .path-line {
   fill: none;
-  stroke-width: 5;
+  stroke-width: 6;
   stroke-linecap: round;
 }
 
 .path-step {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -204,7 +204,7 @@ button { font: inherit; }
   left: 5px;
   top: 5px;
   width: 4px;
-  height: 51px;
+  height: 47px;
   border-radius: 999px;
   background: #e3a91d;
   box-shadow: inset -1px 0 0 rgba(157, 100, 0, 0.22);
@@ -247,6 +247,19 @@ button { font: inherit; }
   border: 1px solid rgba(255, 255, 255, 0.38);
 }
 
+.flag-base {
+  position: absolute;
+  left: -1px;
+  bottom: 0;
+  width: 16px;
+  height: 8px;
+  border-radius: 5px;
+  background: #f2bf32;
+  box-shadow:
+    inset 0 -2px 0 rgba(166, 104, 0, 0.22),
+    0 2px 4px rgba(111, 76, 17, 0.18);
+}
+
 .stage-node {
   width: 72px;
   height: 72px;
@@ -258,21 +271,26 @@ button { font: inherit; }
   gap: 2px;
   border: 4px solid #fff;
   border-radius: 50%;
-  background: #9bd9bd;
+  background: #c7cbd1;
   color: #fff;
-  box-shadow: 0 6px 0 #68b793, 0 10px 18px rgba(31, 41, 55, 0.14);
+  box-shadow: 0 6px 0 #9ea3aa, 0 10px 18px rgba(31, 41, 55, 0.1);
   cursor: pointer;
   transition: transform 0.14s ease, box-shadow 0.14s ease, opacity 0.14s ease;
 }
 
 .stage-node:hover:not(:disabled) {
   transform: translateY(-3px);
-  box-shadow: 0 8px 0 #68b793, 0 14px 24px rgba(31, 41, 55, 0.18);
+  box-shadow: 0 8px 0 #9ea3aa, 0 14px 24px rgba(31, 41, 55, 0.18);
+}
+
+.path-step.current .stage-node {
+  animation: current-stage-pulse 1.9s ease-in-out infinite;
 }
 
 .path-step.completed .stage-node {
   background: #ff9500;
   box-shadow: 0 6px 0 #c96f00, 0 10px 18px rgba(31, 41, 55, 0.14);
+  animation: none;
 }
 
 .path-step.completed .stage-node:hover:not(:disabled) {
@@ -294,7 +312,7 @@ button { font: inherit; }
 
 .stage-stars {
   min-height: 11px;
-  color: rgba(53, 115, 88, 0.45);
+  color: rgba(255, 255, 255, 0.52);
   font-size: 10px;
   line-height: 1;
   letter-spacing: 0;
@@ -338,25 +356,25 @@ body.game-active .bottom-nav {
 }
 
 .nav-button {
-  min-height: 40px;
+  min-height: 36px;
   border: 0;
   border-radius: 16px;
   background: transparent;
   color: var(--muted);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .nav-button.active {
-  background: #efffe8;
-  color: var(--green-dark);
+  background: transparent;
+  color: #ff9500;
 }
 
 .nav-icon {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   margin: 0 auto 1px;
   fill: none;
   stroke: currentColor;
@@ -812,6 +830,15 @@ body.game-active .bottom-nav {
   36% { transform: translateX(8px); }
   54% { transform: translateX(-6px); }
   72% { transform: translateX(6px); }
+}
+
+@keyframes current-stage-pulse {
+  0%, 100% {
+    box-shadow: 0 6px 0 #9ea3aa, 0 10px 18px rgba(31, 41, 55, 0.1);
+  }
+  50% {
+    box-shadow: 0 6px 0 #9ea3aa, 0 10px 25px rgba(31, 41, 55, 0.24);
+  }
 }
 
 @media (max-width: 720px) {

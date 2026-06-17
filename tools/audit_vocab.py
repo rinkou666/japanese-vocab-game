@@ -9,11 +9,12 @@ import json
 import re
 import sys
 import unicodedata
+import xml.etree.ElementTree as ET
 import zipfile
 from collections import defaultdict
 from pathlib import Path
 
-from convert_vocab import DEFAULT_WORKBOOK, read_level, shared_strings, sheet_paths
+from convert_vocab import DEFAULT_WORKBOOK, NS, cell_column, cell_text, shared_strings, sheet_paths
 
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
@@ -77,6 +78,29 @@ def row_dict(values: list[str], row_number: int) -> dict[str, str | int]:
     }
 
 
+def read_level_for_audit(
+    archive: zipfile.ZipFile,
+    sheet_path: str,
+    strings: list[str],
+) -> list[dict[str, str | int]]:
+    root = ET.fromstring(archive.read(sheet_path))
+    records = []
+    for row in root.findall(".//x:sheetData/x:row", NS):
+        values = ["", "", "", ""]
+        for cell in row.findall("x:c", NS):
+            column = cell_column(cell.attrib.get("r", "A1"))
+            if column < 4:
+                values[column] = cell_text(cell, strings).strip()
+        if [value.lower() for value in values] == ["level", "jp", "kana", "cn"]:
+            continue
+        if not any(values):
+            continue
+        if values[0] and not any(values[1:]):
+            continue
+        records.append(row_dict(values, int(row.attrib.get("r", "0"))))
+    return records
+
+
 def write_csv(name: str, headers: list[str], rows: list[list[object]]) -> Path:
     path = REPORT_DIR / name
     with path.open("w", encoding="utf-8-sig", newline="") as file:
@@ -96,10 +120,7 @@ with zipfile.ZipFile(WORKBOOK_PATH) as archive:
     for level, sheet_path in paths.items():
         if level not in {"N5", "N4", "N3", "N2", "N1"}:
             continue
-        records = read_level(archive, sheet_path, strings, level)
-        all_rows[level] = [
-            row_dict(values, index + 2) for index, values in enumerate(records)
-        ]
+        all_rows[level] = read_level_for_audit(archive, sheet_path, strings)
 
 target_rows = all_rows[TARGET_LEVEL]
 lower_levels = [
@@ -172,29 +193,29 @@ REPORT_DIR.mkdir(parents=True, exist_ok=True)
 files = [
     write_csv(
         f"{TARGET_LEVEL}-确定重复.csv",
-        ["N2原行号", "N2日语", "N2假名", "N2中文", "重复等级",
+        [f"{TARGET_LEVEL}原行号", f"{TARGET_LEVEL}日语", f"{TARGET_LEVEL}假名", f"{TARGET_LEVEL}中文", "重复等级",
          "旧表原行号", "旧表日语", "旧表假名", "旧表中文", "建议"],
         exact_duplicates,
     ),
     write_csv(
         f"{TARGET_LEVEL}-同词不同读音.csv",
-        ["N2原行号", "N2日语", "N2假名", "N2中文", "旧等级",
+        [f"{TARGET_LEVEL}原行号", f"{TARGET_LEVEL}日语", f"{TARGET_LEVEL}假名", f"{TARGET_LEVEL}中文", "旧等级",
          "旧表原行号", "旧表假名", "旧表中文", "建议"],
         same_word_different_kana,
     ),
     write_csv(
         f"{TARGET_LEVEL}-内部重复.csv",
-        ["重复组", "N2原行号", "日语", "假名", "中文", "建议"],
+        ["重复组", f"{TARGET_LEVEL}原行号", "日语", "假名", "中文", "建议"],
         internal_rows,
     ),
     write_csv(
         f"{TARGET_LEVEL}-疑似简体字.csv",
-        ["N2原行号", "日语", "假名", "中文", "疑似字符", "建议"],
+        [f"{TARGET_LEVEL}原行号", "日语", "假名", "中文", "疑似字符", "建议"],
         simplified_candidates,
     ),
     write_csv(
         f"{TARGET_LEVEL}-字段问题.csv",
-        ["类型", "N2原行号", "level", "日语", "假名", "中文"],
+        ["类型", f"{TARGET_LEVEL}原行号", "level", "日语", "假名", "中文"],
         field_issues,
     ),
 ]
