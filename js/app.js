@@ -459,10 +459,13 @@ function endGame(completed) {
 
   starsEl.textContent = stars > 0 ? "🌟".repeat(stars) : "再挑战一次";
   resultTitle.textContent = completed ? "太棒了！" : "时间到！";
+  resultScreen.classList.toggle("completed", completed);
+  resultScreen.classList.toggle("failed", !completed);
   accuracyEl.textContent = `${accuracy}%`;
   finishTimeEl.textContent = `${elapsed.toFixed(1)}s`;
   finalScoreEl.textContent = `${matched}/${currentStage.words.length}`;
   nextButton.disabled = !completed || !getNextStage();
+  nextButton.hidden = !completed;
   nextButton.textContent = getNextStage() ? "下一关" : "已到最后";
   resultScreen.classList.add("show");
 }
