@@ -6,7 +6,7 @@ import { N1_SOURCE_WORDS } from "../data/n1.js";
 import { buildStages, normalizeWords } from "./stages.js";
 import { createProgressStorage } from "./storage.js";
 
-const TOTAL_TIME = 90;
+const TOTAL_TIME = 100;
 const VISIBLE_ROWS = 6;
 const WORDS_PER_STAGE = 20;
 const HIDDEN_STAGE_TOTAL = 30;
@@ -48,6 +48,7 @@ const firstStageNumberByLevel = new Map([
 const stageIndexById = new Map(stages.map((stage, index) => [stage.id, index]));
 
 const screens = {
+  home: document.querySelector("#homeScreen"),
   map: document.querySelector("#mapScreen"),
   game: document.querySelector("#gameScreen"),
   profile: document.querySelector("#profileScreen")
@@ -55,7 +56,9 @@ const screens = {
 
 const stageMap = document.querySelector("#stageMap");
 const homeNavButton = document.querySelector("#homeNavButton");
+const mapNavButton = document.querySelector("#mapNavButton");
 const profileNavButton = document.querySelector("#profileNavButton");
+const levelButtons = document.querySelectorAll(".level-button");
 
 const jpColumn = document.querySelector("#jpColumn");
 const cnColumn = document.querySelector("#cnColumn");
@@ -73,8 +76,8 @@ const accuracyEl = document.querySelector("#accuracy");
 const finishTimeEl = document.querySelector("#finishTime");
 const finalScoreEl = document.querySelector("#finalScore");
 const againButton = document.querySelector("#againButton");
-const nextButton = document.querySelector("#nextButton");
 const resultMapButton = document.querySelector("#resultMapButton");
+const resultHomeButton = document.querySelector("#resultHomeButton");
 
 const todayClearedEl = document.querySelector("#todayCleared");
 const todayStarsEl = document.querySelector("#todayStars");
@@ -105,18 +108,22 @@ let timerId = null;
 let timerStarted = false;
 let isResolving = false;
 let finished = false;
+let activeStartLevel = "N5";
 
-function showScreen(name) {
+function showScreen(name, options = {}) {
+  if (options.level) activeStartLevel = options.level;
   Object.values(screens).forEach((screen) => screen.classList.remove("active"));
   screens[name].classList.add("active");
   document.body.classList.toggle("game-active", name === "game");
-  homeNavButton.classList.toggle("active", name === "map");
+  document.body.classList.toggle("map-active", name === "map");
+  homeNavButton.classList.toggle("active", name === "home");
+  mapNavButton.classList.toggle("active", name === "map");
   profileNavButton.classList.toggle("active", name === "profile");
-  if (name === "map") renderMap();
+  if (name === "map") renderMap(options.level);
   if (name === "profile") renderProfile();
 }
 
-function renderMap() {
+function renderMap(targetLevel = null) {
   stageMap.innerHTML = "";
   const pathSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   pathSvg.classList.add("path-lines");
@@ -136,6 +143,7 @@ function renderMap() {
     step.className = `path-step level-${stage.level.toLowerCase()} position-${position}${statusClass}`;
     step.dataset.stageId = stage.id;
     step.dataset.level = stage.level;
+    step.dataset.stageNumber = stage.number;
     const node = document.createElement("button");
     node.className = "stage-node";
     node.type = "button";
@@ -161,14 +169,38 @@ function renderMap() {
     stageMap.appendChild(step);
   });
 
+  const scrollToTarget = () => scrollMapToLevel(targetLevel);
+
   drawMapCurves();
   requestAnimationFrame(drawMapCurves);
-  requestAnimationFrame(scrollMapToBottom);
+  requestAnimationFrame(scrollToTarget);
   setTimeout(() => {
     drawMapCurves();
-    scrollMapToBottom();
+    scrollToTarget();
   }, 80);
-  setTimeout(scrollMapToBottom, 240);
+  setTimeout(scrollToTarget, 240);
+}
+
+function scrollMapToLevel(level) {
+  if (!level) {
+    scrollMapToBottom();
+    return;
+  }
+
+  const stageNumber = firstStageNumberByLevel.get(level);
+  const step = stageMap.querySelector(`.path-step[data-stage-number="${stageNumber}"]`);
+  if (!step) {
+    scrollMapToBottom();
+    return;
+  }
+
+  const screenRect = screens.map.getBoundingClientRect();
+  const stepRect = step.getBoundingClientRect();
+  const targetTop = screens.map.scrollTop + stepRect.top - screenRect.top - screenRect.height * 0.45;
+  screens.map.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: "auto"
+  });
 }
 
 function scrollMapToBottom() {
@@ -180,7 +212,10 @@ function scrollMapToBottom() {
 
 function isMapStageUnlocked(stage) {
   const index = stageIndexById.get(stage.id);
-  if (index === 0) return true;
+  const startNumber = firstStageNumberByLevel.get(activeStartLevel) || 1;
+  const startIndex = stages.findIndex((item) => item.number === startNumber);
+  if (index < startIndex) return false;
+  if (index === startIndex) return true;
   return getStageStars(stages[index - 1].id) > 0;
 }
 
@@ -271,7 +306,10 @@ function getStageStars(stageId) {
 }
 
 function isStageUnlocked(index) {
-  if (index === 0) return true;
+  const startNumber = firstStageNumberByLevel.get(activeStartLevel) || 1;
+  const startIndex = stages.findIndex((stage) => stage.number === startNumber);
+  if (index < startIndex) return false;
+  if (index === startIndex) return true;
   return getStageStars(stages[index - 1].id) > 0;
 }
 
@@ -464,9 +502,6 @@ function endGame(completed) {
   accuracyEl.textContent = `${accuracy}%`;
   finishTimeEl.textContent = `${elapsed.toFixed(1)}s`;
   finalScoreEl.textContent = `${matched}/${currentStage.words.length}`;
-  nextButton.disabled = !completed || !getNextStage();
-  nextButton.hidden = !completed;
-  nextButton.textContent = getNextStage() ? "下一关" : "已到最后";
   resultScreen.classList.add("show");
 }
 
@@ -494,8 +529,8 @@ function saveStageResult(stars, elapsed, accuracy) {
 }
 
 function getStars(seconds) {
-  if (seconds <= 40) return 3;
-  if (seconds <= 60) return 2;
+  if (seconds <= 50) return 3;
+  if (seconds <= 70) return 2;
   return 1;
 }
 
@@ -504,8 +539,14 @@ function getNextStage() {
   return stages[index + 1] || null;
 }
 
-homeNavButton.addEventListener("click", () => showScreen("map"));
+homeNavButton.addEventListener("click", () => showScreen("home"));
+mapNavButton.addEventListener("click", () => showScreen("map"));
 profileNavButton.addEventListener("click", () => showScreen("profile"));
+levelButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    showScreen("map", { level: button.dataset.level });
+  });
+});
 backToMapButton.addEventListener("click", () => {
   clearInterval(timerId);
   showScreen("map");
@@ -518,13 +559,11 @@ resultMapButton.addEventListener("click", () => {
   resultScreen.classList.remove("show");
   showScreen("map");
 });
-nextButton.addEventListener("click", () => {
-  const nextStage = getNextStage();
-  if (!nextStage) return;
+resultHomeButton.addEventListener("click", () => {
   resultScreen.classList.remove("show");
-  startStage(nextStage);
+  showScreen("home");
 });
 window.addEventListener("resize", drawMapCurves);
-window.addEventListener("load", scrollMapToBottom);
-
-renderMap();
+window.addEventListener("load", () => {
+  if (screens.map.classList.contains("active")) scrollMapToBottom();
+});

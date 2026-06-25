@@ -5,13 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>日本語語彙マッチ</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./css/styles.css?v=26">
+  <link rel="stylesheet" href="./css/styles.css?v=41">
 </head>
 <body>
   <main class="app">
-    <section class="screen active" id="mapScreen">
+    <section class="screen active" id="homeScreen">
       <header class="topbar">
         <h1>日本語語彙マッチ</h1>
+      </header>
+
+      <section class="level-select" aria-label="选择开始等级">
+        <h2>请选择你要开始的等级</h2>
+        <div class="level-buttons">
+          <button class="level-button" type="button" data-level="N1">N1</button>
+          <button class="level-button" type="button" data-level="N2">N2</button>
+          <button class="level-button" type="button" data-level="N3">N3</button>
+          <button class="level-button" type="button" data-level="N4">N4</button>
+          <button class="level-button" type="button" data-level="N5">N5</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="screen" id="mapScreen">
+      <header class="topbar">
+        <h1>地图</h1>
       </header>
 
       <section class="map-path" id="stageMap" aria-label="N5至N1关卡地图"></section>
@@ -28,7 +45,7 @@
         <div class="progress-shell">
           <div class="progress-fill" id="progressFill"></div>
         </div>
-        <div class="timer" id="timer">90s</div>
+        <div class="timer" id="timer">100s</div>
       </section>
 
       <section class="board" aria-label="单词配对棋盘">
@@ -98,6 +115,13 @@
       </svg>
       主页
     </button>
+    <button class="nav-button" id="mapNavButton" type="button">
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 6a12 12 0 0 1 5-2l6 16a12 12 0 0 0-5 2Z"></path>
+        <path d="M9 4a12 12 0 0 1 5 2l6-2v16l-6 2a12 12 0 0 0-5-2"></path>
+      </svg>
+      地图
+    </button>
     <button class="nav-button" id="profileNavButton" type="button">
       <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="8" r="4"></circle>
@@ -130,12 +154,12 @@
       </div>
       <div class="result-actions">
         <button class="secondary-button" id="againButton" type="button">再来一次</button>
-        <button class="primary-button" id="nextButton" type="button">下一关</button>
         <button class="secondary-button" id="resultMapButton" type="button">返回地图</button>
+        <button class="secondary-button" id="resultHomeButton" type="button">返回主页</button>
       </div>
     </div>
   </section>
 
-  <script type="module" src="./js/app.js?v=26"></script>
+  <script type="module" src="./js/app.js?v=41"></script>
 </body>
 </html>
