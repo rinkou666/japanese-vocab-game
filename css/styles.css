@@ -662,7 +662,7 @@ body.map-active .nav-button.active {
   padding: 0 12px 14px;
 }
 
-#resultHomeButton {
+#resultMapButton {
   grid-column: 1 / -1;
 }
 
