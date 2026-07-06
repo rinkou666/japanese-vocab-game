@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>日本語語彙マッチ</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./css/styles.css?v=44">
+  <link rel="stylesheet" href="./css/styles.css?v=45">
 </head>
 <body>
   <main class="app">
@@ -17,6 +17,7 @@
       <section class="level-select" aria-label="选择开始等级">
         <h2>请选择你要开始的等级</h2>
         <div class="level-buttons">
+          <button class="level-button" type="button" data-level="CHALLENGE">挑战</button>
           <button class="level-button" type="button" data-level="N1">N1</button>
           <button class="level-button" type="button" data-level="N2">N2</button>
           <button class="level-button" type="button" data-level="N3">N3</button>
@@ -31,7 +32,7 @@
         <h1>地图</h1>
       </header>
 
-      <section class="map-path" id="stageMap" aria-label="N5至N1关卡地图"></section>
+      <section class="map-path" id="stageMap" aria-label="N5至挑战关卡地图"></section>
     </section>
 
     <section class="screen" id="gameScreen">
@@ -89,9 +90,9 @@
           </div>
         </div>
       </section>
-      <section class="hidden-progress" aria-label="隐藏关卡进度">
+      <section class="hidden-progress" aria-label="挑战关卡进度">
         <div class="journey-heading">
-          <span>隐藏关卡</span>
+          <span>挑战关卡</span>
           <strong><span id="hiddenCleared">0</span> / <span id="hiddenTotal">30</span></strong>
         </div>
         <div class="hidden-track-wrap">
@@ -160,6 +161,6 @@
     </div>
   </section>
 
-  <script type="module" src="./js/app.js?v=44"></script>
+  <script type="module" src="./js/app.js?v=45"></script>
 </body>
 </html>

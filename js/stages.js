@@ -12,6 +12,7 @@ export function buildStages(words, wordsPerStage, startNumber = 1) {
   const stages = [];
   const level = words[0]?.level || "";
   const levelKey = level.toLowerCase();
+  const label = level === "CHALLENGE" ? "挑战" : level;
 
   for (let index = 0; index < words.length; index += wordsPerStage) {
     const number = Math.floor(index / wordsPerStage) + startNumber;
@@ -19,7 +20,7 @@ export function buildStages(words, wordsPerStage, startNumber = 1) {
       id: `${levelKey}-stage-${number}`,
       level,
       number,
-      title: `${level} 第${number}关`,
+      title: `${label} 第${number}关`,
       words: words.slice(index, index + wordsPerStage)
     });
   }

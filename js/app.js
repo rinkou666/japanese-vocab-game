@@ -3,13 +3,13 @@ import { N4_SOURCE_WORDS } from "../data/n4.js";
 import { N3_SOURCE_WORDS } from "../data/n3.js";
 import { N2_SOURCE_WORDS } from "../data/n2.js";
 import { N1_SOURCE_WORDS } from "../data/n1.js";
+import { CHALLENGE_SOURCE_WORDS } from "../data/challenge.js";
 import { buildStages, normalizeWords } from "./stages.js";
 import { createProgressStorage } from "./storage.js";
 
 const TOTAL_TIME = 100;
 const VISIBLE_ROWS = 6;
 const WORDS_PER_STAGE = 20;
-const HIDDEN_STAGE_TOTAL = 30;
 const STORAGE_KEY = "japanese-vocab-match-progress-v6";
 const LEGACY_STORAGE_KEYS = [
   "japanese-vocab-match-progress-v1",
@@ -38,13 +38,19 @@ const n1Stages = buildStages(
   WORDS_PER_STAGE,
   n5Stages.length + n4Stages.length + n3Stages.length + n2Stages.length + 1
 );
-const stages = [...n5Stages, ...n4Stages, ...n3Stages, ...n2Stages, ...n1Stages];
+const challengeStages = buildStages(
+  normalizeWords(CHALLENGE_SOURCE_WORDS),
+  WORDS_PER_STAGE,
+  n5Stages.length + n4Stages.length + n3Stages.length + n2Stages.length + n1Stages.length + 1
+);
+const stages = [...n5Stages, ...n4Stages, ...n3Stages, ...n2Stages, ...n1Stages, ...challengeStages];
 const firstStageNumberByLevel = new Map([
   ["N5", n5Stages[0]?.number],
   ["N4", n4Stages[0]?.number],
   ["N3", n3Stages[0]?.number],
   ["N2", n2Stages[0]?.number],
-  ["N1", n1Stages[0]?.number]
+  ["N1", n1Stages[0]?.number],
+  ["CHALLENGE", challengeStages[0]?.number]
 ]);
 const stageIndexById = new Map(stages.map((stage, index) => [stage.id, index]));
 
@@ -111,6 +117,10 @@ let isResolving = false;
 let finished = false;
 let activeStartLevel = "N5";
 
+function getLevelLabel(level) {
+  return level === "CHALLENGE" ? "挑战" : level;
+}
+
 function showScreen(name, options = {}) {
   if (options.level) activeStartLevel = options.level;
   Object.values(screens).forEach((screen) => screen.classList.remove("active"));
@@ -162,8 +172,8 @@ function renderMap(target = {}) {
     if (firstStageNumberByLevel.get(stage.level) === stage.number) {
       const badge = document.createElement("div");
       badge.className = "level-flag";
-      badge.innerHTML = `<span>${stage.level}</span><i class="flag-base" aria-hidden="true"></i>`;
-      badge.setAttribute("aria-label", `${stage.level}阶段`);
+      badge.innerHTML = `<span>${getLevelLabel(stage.level)}</span><i class="flag-base" aria-hidden="true"></i>`;
+      badge.setAttribute("aria-label", `${getLevelLabel(stage.level)}阶段`);
       step.appendChild(badge);
     }
 
@@ -274,7 +284,8 @@ function renderJourneyProgress() {
     { level: "N4", count: n4Stages.length },
     { level: "N3", count: n3Stages.length },
     { level: "N2", count: n2Stages.length },
-    { level: "N1", count: n1Stages.length }
+    { level: "N1", count: n1Stages.length },
+    { level: "挑战", count: challengeStages.length }
   ];
   let completedBefore = 0;
   journeyLevelsEl.innerHTML = levelGroups.map(({ level, count }) => {
@@ -283,13 +294,12 @@ function renderJourneyProgress() {
     return `<span style="left:${centerPercent}%">${level}</span>`;
   }).join("");
 
-  const hiddenCleared = Object.values(progress.hiddenStages || {})
-    .filter((stage) => (stage?.stars || 0) > 0).length;
-  const hiddenPercent = (hiddenCleared / HIDDEN_STAGE_TOTAL) * 100;
-  hiddenClearedEl.textContent = hiddenCleared;
-  hiddenTotalEl.textContent = HIDDEN_STAGE_TOTAL;
-  hiddenFillEl.style.width = `${hiddenPercent}%`;
-  setMarkerPosition(hiddenMarkerEl, hiddenPercent);
+  const challengeCleared = challengeStages.filter((stage) => getStageStars(stage.id) > 0).length;
+  const challengePercent = challengeStages.length === 0 ? 0 : (challengeCleared / challengeStages.length) * 100;
+  hiddenClearedEl.textContent = challengeCleared;
+  hiddenTotalEl.textContent = challengeStages.length;
+  hiddenFillEl.style.width = `${challengePercent}%`;
+  setMarkerPosition(hiddenMarkerEl, challengePercent);
 }
 
 function setMarkerPosition(element, percent) {
