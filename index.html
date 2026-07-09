@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>日本語語彙マッチ</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./css/styles.css?v=45">
+  <link rel="stylesheet" href="./css/styles.css?v=46">
 </head>
 <body>
   <main class="app">
@@ -105,6 +105,23 @@
         </div>
       </section>
     </section>
+
+    <section class="screen" id="wordbookScreen">
+      <header class="topbar">
+        <h1>单词本</h1>
+      </header>
+
+      <section class="wordbook-panel" aria-label="收藏单词">
+        <div class="wordbook-heading">
+          <div>
+            <h2>收藏词</h2>
+            <span><span id="favoriteCount">0</span> 个</span>
+          </div>
+          <button class="primary-button compact-button" id="startFlashButton" type="button">开始闪卡复习</button>
+        </div>
+        <div class="wordbook-list" id="wordbookList"></div>
+      </section>
+    </section>
   </main>
 
   <nav class="bottom-nav" id="bottomNav" aria-label="底部导航">
@@ -122,6 +139,13 @@
         <path d="M9 4a12 12 0 0 1 5 2l6-2v16l-6 2a12 12 0 0 0-5-2"></path>
       </svg>
       地图
+    </button>
+    <button class="nav-button" id="wordbookNavButton" type="button">
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19 21 12 17 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z"></path>
+        <path d="m12 7 1.2 2.4 2.6.4-1.9 1.8.4 2.6-2.3-1.2-2.3 1.2.4-2.6-1.9-1.8 2.6-.4Z"></path>
+      </svg>
+      单词本
     </button>
     <button class="nav-button" id="profileNavButton" type="button">
       <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -161,6 +185,24 @@
     </div>
   </section>
 
-  <script type="module" src="./js/app.js?v=45"></script>
+  <section class="modal-screen flash-screen" id="flashScreen" aria-live="polite">
+    <div class="flash-panel">
+      <div class="flash-topline">
+        <span id="flashProgress">1 / 1</span>
+        <button class="secondary-button compact-button" id="exitFlashButton" type="button">退出</button>
+      </div>
+      <button class="flash-card" id="flashCard" type="button" aria-label="闪卡，点击翻面">
+        <span class="flash-label" id="flashLabel">日语</span>
+        <strong id="flashMain">単語</strong>
+        <span id="flashSub">かな</span>
+      </button>
+      <div class="flash-actions">
+        <button class="secondary-button" id="prevFlashButton" type="button">上一张</button>
+        <button class="primary-button" id="nextFlashButton" type="button">下一张</button>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="./js/app.js?v=46"></script>
 </body>
 </html>

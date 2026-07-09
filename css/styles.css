@@ -387,7 +387,7 @@ button { font: inherit; }
   height: var(--bottom-nav-height);
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0;
   border: 0;
   border-top: 1px solid #d9e3ea;
@@ -520,6 +520,24 @@ body.map-active .nav-button.active {
   opacity: 0;
   transform: scale(0.96);
   pointer-events: none;
+}
+
+.favorite-star {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  color: var(--gold);
+  font-size: 15px;
+  line-height: 1;
+  opacity: 0;
+  transform: scale(0.72);
+  text-shadow: 0 1px 1px rgba(145, 93, 0, 0.24);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.tile.favorited .favorite-star {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .tile.wrong {
@@ -671,6 +689,18 @@ body.map-active .nav-button.active {
   min-height: 48px;
   padding: 11px 12px;
   font-weight: 850;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+  transform: none;
+}
+
+.primary-button:disabled:hover,
+.secondary-button:disabled:hover {
+  transform: none;
 }
 
 .primary-button {
@@ -885,6 +915,214 @@ body.map-active .nav-button.active {
   transition: left 0.45s ease;
 }
 
+#wordbookScreen.active {
+  width: min(720px, 100%);
+  margin: 0 auto;
+}
+
+.wordbook-panel {
+  width: min(620px, 100%);
+  margin: 24px auto 0;
+  display: grid;
+  gap: 14px;
+}
+
+.wordbook-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px;
+  border: 2px solid #d9e3ea;
+  border-bottom-width: 5px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.wordbook-heading h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.wordbook-heading span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.compact-button {
+  min-height: 38px;
+  padding: 8px 12px;
+  border-bottom-width: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.wordbook-list {
+  display: grid;
+  gap: 10px;
+}
+
+.wordbook-card,
+.empty-wordbook {
+  border: 2px solid #d9e3ea;
+  border-bottom-width: 5px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.wordbook-card {
+  position: relative;
+  padding: 14px 48px 13px 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.wordbook-word strong {
+  display: block;
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+
+.wordbook-word span {
+  display: block;
+  margin-top: 3px;
+  min-height: 18px;
+  color: var(--muted);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.wordbook-meaning {
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.36;
+  overflow-wrap: anywhere;
+}
+
+.wordbook-source {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.favorite-remove {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff7d6;
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 17px;
+  line-height: 1;
+}
+
+.empty-wordbook {
+  padding: 28px 18px;
+  text-align: center;
+}
+
+.empty-wordbook strong,
+.empty-wordbook span {
+  display: block;
+}
+
+.empty-wordbook strong {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.empty-wordbook span {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.flash-screen {
+  z-index: 11;
+}
+
+.flash-panel {
+  width: min(420px, 100%);
+  display: grid;
+  gap: 14px;
+}
+
+.flash-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.flash-topline span {
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.flash-card {
+  min-height: 260px;
+  padding: 24px;
+  display: grid;
+  align-content: center;
+  gap: 12px;
+  border: 2px solid #d9e3ea;
+  border-bottom-width: 5px;
+  border-radius: 16px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.flash-card:hover {
+  transform: translateY(-2px);
+  border-color: #b8cad5;
+}
+
+.flash-card.revealed {
+  background: #fffaf3;
+  border-color: var(--accent-soft);
+}
+
+.flash-label {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.flash-card strong {
+  font-size: clamp(26px, 8vw, 40px);
+  font-weight: 500;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.flash-card > span:last-child {
+  min-height: 22px;
+  color: var(--muted);
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+.flash-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
 #profileScreen .topbar h1 {
   grid-column: 1 / -1;
   text-align: left;
@@ -961,9 +1199,19 @@ body.map-active .nav-button.active {
   }
 
   .journey-progress,
-  .hidden-progress {
+  .hidden-progress,
+  .wordbook-panel {
     padding-right: 16px;
     padding-left: 16px;
+  }
+
+  .wordbook-panel {
+    margin-top: 18px;
+  }
+
+  .wordbook-heading {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .summary-card {

@@ -10,7 +10,8 @@ export function createProgressStorage(storageKey) {
       todayStars: 0,
       totalCleared: 0,
       totalStars: 0,
-      stages: {}
+      stages: {},
+      favorites: {}
     };
   }
 
@@ -23,7 +24,12 @@ export function createProgressStorage(storageKey) {
         saved.todayCleared = 0;
         saved.todayStars = 0;
       }
-      return { ...createDefaultProgress(), ...saved, stages: saved.stages || {} };
+      return {
+        ...createDefaultProgress(),
+        ...saved,
+        stages: saved.stages || {},
+        favorites: saved.favorites || {}
+      };
     } catch {
       return createDefaultProgress();
     }

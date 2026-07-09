@@ -58,12 +58,14 @@ const screens = {
   home: document.querySelector("#homeScreen"),
   map: document.querySelector("#mapScreen"),
   game: document.querySelector("#gameScreen"),
+  wordbook: document.querySelector("#wordbookScreen"),
   profile: document.querySelector("#profileScreen")
 };
 
 const stageMap = document.querySelector("#stageMap");
 const homeNavButton = document.querySelector("#homeNavButton");
 const mapNavButton = document.querySelector("#mapNavButton");
+const wordbookNavButton = document.querySelector("#wordbookNavButton");
 const profileNavButton = document.querySelector("#profileNavButton");
 const levelButtons = document.querySelectorAll(".level-button");
 
@@ -99,6 +101,18 @@ const hiddenClearedEl = document.querySelector("#hiddenCleared");
 const hiddenTotalEl = document.querySelector("#hiddenTotal");
 const hiddenFillEl = document.querySelector("#hiddenFill");
 const hiddenMarkerEl = document.querySelector("#hiddenMarker");
+const favoriteCountEl = document.querySelector("#favoriteCount");
+const startFlashButton = document.querySelector("#startFlashButton");
+const wordbookList = document.querySelector("#wordbookList");
+const flashScreen = document.querySelector("#flashScreen");
+const flashProgressEl = document.querySelector("#flashProgress");
+const flashCard = document.querySelector("#flashCard");
+const flashLabelEl = document.querySelector("#flashLabel");
+const flashMainEl = document.querySelector("#flashMain");
+const flashSubEl = document.querySelector("#flashSub");
+const exitFlashButton = document.querySelector("#exitFlashButton");
+const prevFlashButton = document.querySelector("#prevFlashButton");
+const nextFlashButton = document.querySelector("#nextFlashButton");
 
 let progress = progressStorage.load();
 let currentStage = stages[0];
@@ -116,6 +130,9 @@ let timerStarted = false;
 let isResolving = false;
 let finished = false;
 let activeStartLevel = "N5";
+let flashDeck = [];
+let flashIndex = 0;
+let flashRevealed = false;
 
 function getLevelLabel(level) {
   return level === "CHALLENGE" ? "挑战" : level;
@@ -129,8 +146,10 @@ function showScreen(name, options = {}) {
   document.body.classList.toggle("map-active", name === "map");
   homeNavButton.classList.toggle("active", name === "home");
   mapNavButton.classList.toggle("active", name === "map");
+  wordbookNavButton.classList.toggle("active", name === "wordbook");
   profileNavButton.classList.toggle("active", name === "profile");
   if (name === "map") renderMap(options);
+  if (name === "wordbook") renderWordbook();
   if (name === "profile") renderProfile();
 }
 
@@ -316,6 +335,77 @@ function getStageStars(stageId) {
   return progress.stages[stageId]?.stars || 0;
 }
 
+function getFavoriteWords() {
+  return Object.values(progress.favorites || {})
+    .sort((first, second) => (second.savedAt || 0) - (first.savedAt || 0));
+}
+
+function isFavorite(item) {
+  return Boolean(progress.favorites?.[item.id]);
+}
+
+function toggleFavorite(item, button) {
+  progress.favorites = progress.favorites || {};
+  if (progress.favorites[item.id]) {
+    delete progress.favorites[item.id];
+    button?.classList.remove("favorited");
+  } else {
+    progress.favorites[item.id] = {
+      id: item.id,
+      jp: item.jp,
+      kana: item.kana,
+      cn: item.cn,
+      level: currentStage.level,
+      levelLabel: getLevelLabel(currentStage.level),
+      stageNumber: currentStage.number,
+      savedAt: Date.now()
+    };
+    button?.classList.add("favorited");
+  }
+  progressStorage.save(progress);
+  button?.setAttribute("aria-pressed", String(isFavorite(item)));
+}
+
+function removeFavorite(id) {
+  progress.favorites = progress.favorites || {};
+  delete progress.favorites[id];
+  progressStorage.save(progress);
+  renderWordbook();
+}
+
+function renderWordbook() {
+  const favorites = getFavoriteWords();
+  favoriteCountEl.textContent = favorites.length;
+  startFlashButton.disabled = favorites.length === 0;
+
+  if (favorites.length === 0) {
+    wordbookList.innerHTML = `
+      <div class="empty-wordbook">
+        <strong>还没有收藏单词</strong>
+        <span>在闯关时长按左侧日语词卡，就可以加入单词本。</span>
+      </div>
+    `;
+    return;
+  }
+
+  wordbookList.innerHTML = "";
+  favorites.forEach((word) => {
+    const card = document.createElement("article");
+    card.className = "wordbook-card";
+    card.innerHTML = `
+      <div class="wordbook-word">
+        <strong>${word.jp}</strong>
+        <span>${word.kana || ""}</span>
+      </div>
+      <div class="wordbook-meaning">${word.cn}</div>
+      <div class="wordbook-source">${word.levelLabel || getLevelLabel(word.level)} 第${word.stageNumber}关</div>
+      <button class="favorite-remove" type="button" aria-label="取消收藏 ${word.jp}">★</button>
+    `;
+    card.querySelector(".favorite-remove").addEventListener("click", () => removeFavorite(word.id));
+    wordbookList.appendChild(card);
+  });
+}
+
 function isStageUnlocked(index) {
   const startNumber = firstStageNumberByLevel.get(activeStartLevel) || 1;
   const startIndex = stages.findIndex((stage) => stage.number === startNumber);
@@ -386,20 +476,47 @@ function renderBoard() {
 }
 
 function validateRenderedPairs() {
+  const visibleIds = visible.map((item) => item.id).sort();
   const jpIds = [...jpColumn.querySelectorAll(".tile")].map((tile) => tile.dataset.id).sort();
   const cnIds = [...cnColumn.querySelectorAll(".tile")].map((tile) => tile.dataset.id).sort();
-  if (jpIds.join("|") !== cnIds.join("|")) {
+  const expected = visibleIds.join("|");
+  if (jpIds.join("|") !== expected || cnIds.join("|") !== expected || jpIds.length !== cnIds.length) {
     throw new Error("左右词卡配对数据不一致");
   }
 }
 
 function createJapaneseTile(item) {
   const button = document.createElement("button");
+  let longPressTimer = null;
+  let longPressTriggered = false;
   button.type = "button";
-  button.className = "tile";
+  button.className = `tile${isFavorite(item) ? " favorited" : ""}`;
   button.dataset.id = item.id;
-  button.innerHTML = `<span class="word">${item.jp}</span><span class="kana">${item.kana}</span>`;
-  button.addEventListener("click", () => selectTile(button, item, "jp"));
+  button.setAttribute("aria-pressed", String(isFavorite(item)));
+  button.innerHTML = `
+    <span class="favorite-star" aria-hidden="true">★</span>
+    <span class="word">${item.jp}</span>
+    <span class="kana">${item.kana}</span>
+  `;
+  button.addEventListener("pointerdown", () => {
+    longPressTriggered = false;
+    longPressTimer = setTimeout(() => {
+      longPressTriggered = true;
+      toggleFavorite(item, button);
+    }, 560);
+  });
+  ["pointerup", "pointerleave", "pointercancel"].forEach((eventName) => {
+    button.addEventListener(eventName, () => clearTimeout(longPressTimer));
+  });
+  button.addEventListener("contextmenu", (event) => event.preventDefault());
+  button.addEventListener("click", (event) => {
+    if (longPressTriggered) {
+      event.preventDefault();
+      longPressTriggered = false;
+      return;
+    }
+    selectTile(button, item, "jp");
+  });
   return button;
 }
 
@@ -552,8 +669,39 @@ function getNextStage() {
   return stages[index + 1] || null;
 }
 
+function startFlashReview() {
+  flashDeck = getFavoriteWords();
+  if (flashDeck.length === 0) return;
+  flashIndex = 0;
+  flashRevealed = false;
+  renderFlashCard();
+  flashScreen.classList.add("show");
+}
+
+function renderFlashCard() {
+  const word = flashDeck[flashIndex];
+  if (!word) return;
+  flashProgressEl.textContent = `${flashIndex + 1} / ${flashDeck.length}`;
+  flashCard.classList.toggle("revealed", flashRevealed);
+  flashLabelEl.textContent = flashRevealed ? "中文" : "日语";
+  flashMainEl.textContent = flashRevealed ? word.cn : word.jp;
+  flashSubEl.textContent = flashRevealed
+    ? `${word.levelLabel || getLevelLabel(word.level)} 第${word.stageNumber}关`
+    : (word.kana || "");
+  prevFlashButton.disabled = flashDeck.length <= 1;
+  nextFlashButton.textContent = flashIndex === flashDeck.length - 1 ? "回到第一张" : "下一张";
+}
+
+function moveFlash(step) {
+  if (flashDeck.length === 0) return;
+  flashIndex = (flashIndex + step + flashDeck.length) % flashDeck.length;
+  flashRevealed = false;
+  renderFlashCard();
+}
+
 homeNavButton.addEventListener("click", () => showScreen("home"));
 mapNavButton.addEventListener("click", () => showScreen("map"));
+wordbookNavButton.addEventListener("click", () => showScreen("wordbook"));
 profileNavButton.addEventListener("click", () => showScreen("profile"));
 levelButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -578,6 +726,14 @@ nextButton.addEventListener("click", () => {
   resultScreen.classList.remove("show");
   startStage(nextStage);
 });
+startFlashButton.addEventListener("click", startFlashReview);
+flashCard.addEventListener("click", () => {
+  flashRevealed = !flashRevealed;
+  renderFlashCard();
+});
+exitFlashButton.addEventListener("click", () => flashScreen.classList.remove("show"));
+prevFlashButton.addEventListener("click", () => moveFlash(-1));
+nextFlashButton.addEventListener("click", () => moveFlash(1));
 window.addEventListener("resize", drawMapCurves);
 window.addEventListener("load", () => {
   if (screens.map.classList.contains("active")) scrollMapToBottom();
