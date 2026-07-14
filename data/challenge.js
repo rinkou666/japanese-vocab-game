@@ -4,13 +4,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "次々と",
-    "",
+    "つぎつぎと",
     "接连不断地"
   ],
   [
     "challenge",
     "華々しく",
-    "",
+    "はなばなしく",
     "华丽地，辉煌地"
   ],
   [
@@ -58,7 +58,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "一時的に",
-    "",
+    "いちじてきに",
     "暂时地"
   ],
   [
@@ -70,7 +70,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "極めて",
-    "",
+    "きわめて",
     "极其，非常"
   ],
   [
@@ -88,19 +88,19 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "円滑に",
-    "",
+    "えんかつに",
     "圆滑地，顺利地"
   ],
   [
     "challenge",
     "急速に",
-    "",
+    "きゅうそくに",
     "急速地"
   ],
   [
     "challenge",
     "丹念に",
-    "",
+    "たんねんに",
     "仔细地，细致地"
   ],
   [
@@ -129,20 +129,20 @@ export const CHALLENGE_SOURCE_WORDS = [
   ],
   [
     "challenge",
-    "順调に",
-    "",
+    "順調に",
+    "じゅんちょうに",
     "顺利地"
   ],
   [
     "challenge",
     "徐々に",
-    "",
+    "じょじょに",
     "逐渐地"
   ],
   [
     "challenge",
     "急激に",
-    "",
+    "きゅうげきに",
     "急剧地"
   ],
   [
@@ -166,13 +166,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "思いがけなく",
-    "",
+    "おもいがけなく",
     "意外地"
   ],
   [
     "challenge",
     "限りなく",
-    "",
+    "かぎりなく",
     "无限地"
   ],
   [
@@ -208,13 +208,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "淡々と",
-    "",
+    "たんたんと",
     "淡淡地，平静地"
   ],
   [
     "challenge",
     "非常に",
-    "",
+    "ひじょうに",
     "非常"
   ],
   [
@@ -226,13 +226,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "事前に",
-    "",
+    "じぜんに",
     "事前"
   ],
   [
     "challenge",
     "抜群に",
-    "",
+    "ばつぐんに",
     "杰出地，超群地"
   ],
   [
@@ -244,7 +244,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "完全には",
-    "",
+    "かんぜんには",
     "完全"
   ],
   [
@@ -255,14 +255,14 @@ export const CHALLENGE_SOURCE_WORDS = [
   ],
   [
     "challenge",
-    "简单には",
-    "",
+    "簡単には",
+    "かんたんには",
     "轻易地"
   ],
   [
     "challenge",
     "無事に",
-    "",
+    "ぶじに",
     "平安地，无事地"
   ],
   [
@@ -274,7 +274,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "漠然と",
-    "",
+    "ばくぜんと",
     "模糊地，若有所思地"
   ],
   [
@@ -292,31 +292,31 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "極力",
-    "",
+    "きょくりょく",
     "极力，尽可能地"
   ],
   [
     "challenge",
     "少しずつ",
-    "",
+    "すこしずつ",
     "一点点地，逐渐"
   ],
   [
     "challenge",
     "大幅に",
-    "",
+    "おおはばに",
     "大幅度地"
   ],
   [
     "challenge",
     "できる限り",
-    "",
+    "できるかぎり",
     "尽可能地"
   ],
   [
     "challenge",
     "真っ先に",
-    "",
+    "まっさきに",
     "首先，最先"
   ],
   [
@@ -364,19 +364,19 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "別々に",
-    "",
+    "べつべつに",
     "分别地，各自地"
   ],
   [
     "challenge",
     "克明に",
-    "",
+    "こくめいに",
     "详细地，仔细地"
   ],
   [
     "challenge",
     "徹底的に",
-    "",
+    "てっていてきに",
     "彻底地"
   ],
   [
@@ -400,7 +400,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "張り切って",
-    "",
+    "はりきって",
     "劲头十足地"
   ],
   [
@@ -412,7 +412,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "急いで",
-    "",
+    "いそいで",
     "急忙地"
   ],
   [
@@ -436,25 +436,25 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "自然に",
-    "",
+    "しぜんに",
     "自然地"
   ],
   [
     "challenge",
     "絶対に",
-    "",
+    "ぜったいに",
     "绝对"
   ],
   [
     "challenge",
     "急遽",
-    "",
+    "きゅうきょ",
     "突然，急忙"
   ],
   [
     "challenge",
     "悠々と",
-    "",
+    "ゆうゆうと",
     "悠然，从容"
   ],
   [
@@ -466,13 +466,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "懸命に",
-    "",
+    "けんめいに",
     "拼命地"
   ],
   [
     "challenge",
     "着々と",
-    "",
+    "ちゃくちゃくと",
     "稳步地"
   ],
   [
@@ -484,37 +484,37 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "厳正に",
-    "",
+    "げんせいに",
     "严正地，公正地"
   ],
   [
     "challenge",
     "これ以上",
-    "",
+    "これいじょう",
     "再...，进一步"
   ],
   [
     "challenge",
     "瞬時に",
-    "",
+    "しゅんじに",
     "瞬间，刹那间"
   ],
   [
     "challenge",
     "迅速に",
-    "",
+    "じんそくに",
     "迅速地"
   ],
   [
     "challenge",
     "即座に",
-    "",
+    "そくざに",
     "立即，即刻"
   ],
   [
     "challenge",
     "当面",
-    "",
+    "とうめん",
     "目前，暂时"
   ],
   [
@@ -532,7 +532,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "大して",
-    "",
+    "たいして",
     "(不)怎么，(不)太"
   ],
   [
@@ -544,25 +544,25 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "何度も",
-    "",
+    "なんども",
     "多次"
   ],
   [
     "challenge",
-    "无造作に",
-    "",
+    "無造作に",
+    "むぞうさに",
     "随意地，漫不经心"
   ],
   [
     "challenge",
     "総じて",
-    "",
+    "そうじて",
     "总的来说，整体上"
   ],
   [
     "challenge",
     "概ね",
-    "",
+    "おおむね",
     "大致，基本上"
   ],
   [
@@ -592,7 +592,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "無性に",
-    "",
+    "むしょうに",
     "莫名地，特别想"
   ],
   [
@@ -610,25 +610,25 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "強硬に",
-    "",
+    "きょうこうに",
     "强硬地"
   ],
   [
     "challenge",
     "果敢に",
-    "",
+    "かかんに",
     "果敢地"
   ],
   [
     "challenge",
     "無謀に",
-    "",
+    "むぼうに",
     "鲁莽地"
   ],
   [
     "challenge",
-    "坚実に",
-    "",
+    "堅実に",
+    "けんじつに",
     "稳健地"
   ],
   [
@@ -736,25 +736,25 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "地道に",
-    "",
+    "じみちに",
     "踏实地"
   ],
   [
     "challenge",
     "健やかに",
-    "",
+    "すこやかに",
     "健康地"
   ],
   [
     "challenge",
     "直接に",
-    "",
+    "ちょくせつに",
     "直接地"
   ],
   [
     "challenge",
     "手際よく",
-    "",
+    "てぎわよく",
     "熟练地，利索地"
   ],
   [
@@ -784,7 +784,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "優先的に",
-    "",
+    "ゆうせんてきに",
     "优先地"
   ],
   [
@@ -802,37 +802,37 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "率直に",
-    "",
+    "そっちょくに",
     "率直地，坦率地"
   ],
   [
     "challenge",
     "冷静に",
-    "",
+    "れいせいに",
     "冷静地"
   ],
   [
     "challenge",
     "真面目に",
-    "",
+    "まじめに",
     "认真地"
   ],
   [
     "challenge",
     "慎重に",
-    "",
+    "しんちょうに",
     "慎重地"
   ],
   [
     "challenge",
     "格段に",
-    "",
+    "かくだんに",
     "显著地，特别"
   ],
   [
     "challenge",
     "着実に",
-    "",
+    "ちゃくじつに",
     "稳步地"
   ],
   [
@@ -856,7 +856,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "意外に",
-    "",
+    "いがいに",
     "意外地"
   ],
   [
@@ -868,13 +868,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "一律に",
-    "",
+    "いちりつに",
     "一律地"
   ],
   [
     "challenge",
     "案の定",
-    "",
+    "あんのじょう",
     "果不其然，不出所料"
   ],
   [
@@ -898,19 +898,19 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "裏腹に",
-    "",
+    "うらはらに",
     "相反地，背道而驰"
   ],
   [
     "challenge",
     "一人前に",
-    "",
+    "いちにんまえに",
     "独立地，够格地"
   ],
   [
     "challenge",
     "既に",
-    "",
+    "すでに",
     "已经"
   ],
   [
@@ -964,37 +964,37 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "必ず",
-    "",
+    "かならず",
     "必定，一定"
   ],
   [
     "challenge",
     "全然",
-    "",
+    "ぜんぜん",
     "完全（不）"
   ],
   [
     "challenge",
     "大体",
-    "",
+    "だいたい",
     "大致"
   ],
   [
     "challenge",
     "絶えず",
-    "",
+    "たえず",
     "不断地"
   ],
   [
     "challenge",
     "急に",
-    "",
+    "きゅうに",
     "突然"
   ],
   [
     "challenge",
     "今更",
-    "",
+    "いまさら",
     "事到如今"
   ],
   [
@@ -1012,13 +1012,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "初めて",
-    "",
+    "はじめて",
     "初次"
   ],
   [
     "challenge",
     "随時",
-    "",
+    "ずいじ",
     "随时"
   ],
   [
@@ -1048,7 +1048,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "次第に",
-    "",
+    "しだいに",
     "逐渐地"
   ],
   [
@@ -1060,13 +1060,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "慌てずに",
-    "",
+    "あわてずに",
     "不慌张地"
   ],
   [
     "challenge",
     "怒らずに",
-    "",
+    "おこらずに",
     "不生气地"
   ],
   [
@@ -1078,37 +1078,37 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "久しぶりに",
-    "",
+    "ひさしぶりに",
     "隔了很久"
   ],
   [
     "challenge",
     "誇張して",
-    "",
+    "こちょうして",
     "夸张地"
   ],
   [
     "challenge",
     "大げさに",
-    "",
+    "おおげさに",
     "夸张地，大张旗鼓"
   ],
   [
     "challenge",
     "大ざっぱに",
-    "",
+    "おおざっぱに",
     "粗略地，马虎"
   ],
   [
     "challenge",
     "積極的に",
-    "",
+    "せっきょくてきに",
     "积极地"
   ],
   [
     "challenge",
     "自慢して",
-    "",
+    "じまんして",
     "自夸地"
   ],
   [
@@ -1132,7 +1132,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "頻繁に",
-    "",
+    "ひんぱんに",
     "频繁地"
   ],
   [
@@ -1156,7 +1156,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "端的に",
-    "",
+    "たんてきに",
     "直截了当地"
   ],
   [
@@ -1168,7 +1168,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "何とか",
-    "",
+    "なんとか",
     "想方设法，总算"
   ],
   [
@@ -1192,19 +1192,19 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "素早く",
-    "",
+    "すばやく",
     "敏捷地，快速地"
   ],
   [
     "challenge",
     "顕著に",
-    "",
+    "けんちょに",
     "显著地"
   ],
   [
     "challenge",
     "多岐に",
-    "",
+    "たきに",
     "涉及多方面"
   ],
   [
@@ -1222,13 +1222,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "一気に",
-    "",
+    "いっきに",
     "一下子，一气呵成"
   ],
   [
     "challenge",
     "十分に",
-    "",
+    "じゅうぶんに",
     "充分地"
   ],
   [
@@ -1240,7 +1240,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "直に",
-    "",
+    "じかに",
     "直接地"
   ],
   [
@@ -1252,13 +1252,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "以前から",
-    "",
+    "いぜんから",
     "从以前起"
   ],
   [
     "challenge",
     "故意に",
-    "",
+    "こいに",
     "故意地"
   ],
   [
@@ -1294,7 +1294,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "過密に",
-    "",
+    "かみつに",
     "过密地，密集地"
   ],
   [
@@ -1336,25 +1336,25 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "粘り強く",
-    "",
+    "ねばりづよく",
     "顽强地，有韧性地"
   ],
   [
     "challenge",
     "油断せずに",
-    "",
+    "ゆだんせずに",
     "不留神，不疏忽"
   ],
   [
     "challenge",
     "思い切って",
-    "",
+    "おもいきって",
     "毅然，果断地"
   ],
   [
     "challenge",
     "入念に",
-    "",
+    "にゅうねんに",
     "细致地，周密地"
   ],
   [
@@ -1390,7 +1390,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "穏やかに",
-    "",
+    "おだやかに",
     "温和地，平静地"
   ],
   [
@@ -1414,7 +1414,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "簡単に",
-    "",
+    "かんたんに",
     "容易地"
   ],
   [
@@ -1432,7 +1432,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "若干",
-    "",
+    "じゃっかん",
     "若干，稍微"
   ],
   [
@@ -1456,31 +1456,31 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "早急に",
-    "",
+    "さっきゅうに",
     "紧急地，赶快"
   ],
   [
     "challenge",
     "真っ先",
-    "",
+    "まっさき",
     "首先，最先"
   ],
   [
     "challenge",
-    "紧密に",
-    "",
+    "緊密に",
+    "きんみつに",
     "紧密地"
   ],
   [
     "challenge",
     "多少",
-    "",
+    "たしょう",
     "多少，稍微"
   ],
   [
     "challenge",
     "特に",
-    "",
+    "とくに",
     "特别是"
   ],
   [
@@ -1510,7 +1510,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "大体は",
-    "",
+    "だいたいは",
     "大致上"
   ],
   [
@@ -1522,7 +1522,7 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "整然と",
-    "",
+    "せいぜんと",
     "整齐地，井然有序地"
   ],
   [
@@ -1546,13 +1546,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "またたく間に",
-    "",
+    "またたくまに",
     "转眼间"
   ],
   [
     "challenge",
     "豪快に",
-    "",
+    "ごうかいに",
     "豪放地，豪爽地"
   ],
   [
@@ -1594,37 +1594,37 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "一斉に",
-    "",
+    "いっせいに",
     "一齐，同时"
   ],
   [
     "challenge",
     "順々に",
-    "",
+    "じゅんじゅんに",
     "依次，按顺序"
   ],
   [
     "challenge",
     "客観的に",
-    "",
+    "きゃっかんてきに",
     "客观地"
   ],
   [
     "challenge",
     "簡潔に",
-    "",
+    "かんけつに",
     "简洁地"
   ],
   [
     "challenge",
     "生き生きと",
-    "",
+    "いきいきと",
     "生动地"
   ],
   [
     "challenge",
     "丁寧に",
-    "",
+    "ていねいに",
     "仔细地，认真地"
   ],
   [
@@ -1654,31 +1654,31 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "猛烈に",
-    "",
+    "もうれつに",
     "强烈地，剧烈地"
   ],
   [
     "challenge",
     "心地よく",
-    "",
+    "ここちよく",
     "舒畅地，舒服地"
   ],
   [
     "challenge",
     "潔く",
-    "",
+    "いさぎよく",
     "干脆地，爽快地"
   ],
   [
     "challenge",
     "喜ばしく",
-    "",
+    "よろこばしく",
     "喜悦地，可喜地"
   ],
   [
     "challenge",
     "輝かしく",
-    "",
+    "かがやかしく",
     "辉煌地，灿烂地"
   ],
   [
@@ -1714,25 +1714,25 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "圧倒的に",
-    "",
+    "あっとうてきに",
     "压倒性地"
   ],
   [
     "challenge",
     "精力的に",
-    "",
+    "せいりょくてきに",
     "精力充沛地"
   ],
   [
     "challenge",
     "急進的に",
-    "",
+    "きゅうしんてきに",
     "急进地，激进地"
   ],
   [
     "challenge",
     "普遍的に",
-    "",
+    "ふへんてきに",
     "普遍地"
   ],
   [
@@ -1762,19 +1762,19 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "歴然と",
-    "",
+    "れきぜんと",
     "明显地，清晰地"
   ],
   [
     "challenge",
     "続々と",
-    "",
+    "ぞくぞくと",
     "接连不断地"
   ],
   [
     "challenge",
     "堂々と",
-    "",
+    "どうどうと",
     "堂堂正正地"
   ],
   [
@@ -1792,25 +1792,25 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "繰り返し",
-    "",
+    "くりかえし",
     "反复地"
   ],
   [
     "challenge",
     "詳細に",
-    "",
+    "しょうさいに",
     "详细地"
   ],
   [
     "challenge",
     "懐かしそうに",
-    "",
+    "なつかしそうに",
     "怀念地"
   ],
   [
     "challenge",
     "互角に",
-    "",
+    "ごかくに",
     "不相上下地"
   ],
   [
@@ -1846,13 +1846,13 @@ export const CHALLENGE_SOURCE_WORDS = [
   [
     "challenge",
     "全く",
-    "",
+    "まったく",
     "全然，完全"
   ],
   [
     "challenge",
     "決して",
-    "",
+    "けっして",
     "决不"
   ]
 ];

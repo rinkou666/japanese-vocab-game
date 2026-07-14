@@ -3,7 +3,7 @@ import { N4_SOURCE_WORDS } from "../data/n4.js";
 import { N3_SOURCE_WORDS } from "../data/n3.js";
 import { N2_SOURCE_WORDS } from "../data/n2.js";
 import { N1_SOURCE_WORDS } from "../data/n1.js";
-import { CHALLENGE_SOURCE_WORDS } from "../data/challenge.js";
+import { CHALLENGE_SOURCE_WORDS } from "../data/challenge.js?v=2";
 import { buildStages, normalizeWords } from "./stages.js";
 import { createProgressStorage } from "./storage.js";
 
@@ -133,6 +133,9 @@ let activeStartLevel = "N5";
 let flashDeck = [];
 let flashIndex = 0;
 let flashRevealed = false;
+const successSound = new Audio("./assets/sounds/correct-answer-tone.wav");
+successSound.preload = "auto";
+successSound.volume = 0.45;
 
 function getLevelLabel(level) {
   return level === "CHALLENGE" ? "挑战" : level;
@@ -530,6 +533,11 @@ function createChineseTile(item) {
   return button;
 }
 
+function playSuccessSound() {
+  successSound.currentTime = 0;
+  successSound.play().catch(() => {});
+}
+
 function selectTile(button, item, side) {
   if (finished || isResolving || button.disabled) return;
   startTimer();
@@ -566,6 +574,7 @@ function checkMatch() {
   if (isCorrect) {
     const matchedId = jpSelection.item.id;
     correctAttempts += 1;
+    playSuccessSound();
     jpSelection.button.classList.add("correct");
     cnSelection.button.classList.add("correct");
     setTimeout(() => {
