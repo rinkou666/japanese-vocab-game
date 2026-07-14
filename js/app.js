@@ -133,10 +133,10 @@ let activeStartLevel = "N5";
 let flashDeck = [];
 let flashIndex = 0;
 let flashRevealed = false;
-const successSound = new Audio("./assets/sounds/air-in-a-hit.wav");
-successSound.preload = "auto";
-successSound.volume = 0.32;
-successSound.load();
+const SUCCESS_SOUND_URL = "./assets/sounds/correct-answer-tone.wav";
+let audioContext = null;
+let successBuffer = null;
+let successBufferPromise = null;
 let soundPrimed = false;
 
 function getLevelLabel(level) {
@@ -535,25 +535,53 @@ function createChineseTile(item) {
   return button;
 }
 
+function getAudioContext() {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) return null;
+  audioContext ||= new AudioContextClass();
+  return audioContext;
+}
+
+function loadSuccessSound() {
+  const context = getAudioContext();
+  if (!context) return Promise.resolve(null);
+  if (successBuffer) return Promise.resolve(successBuffer);
+  if (successBufferPromise) return successBufferPromise;
+
+  successBufferPromise = fetch(SUCCESS_SOUND_URL)
+    .then((response) => response.arrayBuffer())
+    .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
+    .then((buffer) => {
+      successBuffer = buffer;
+      return buffer;
+    })
+    .catch(() => null);
+
+  return successBufferPromise;
+}
+
 function playSuccessSound() {
-  successSound.currentTime = 0;
-  successSound.play().catch(() => {});
+  if (navigator.vibrate) navigator.vibrate(12);
+
+  const context = getAudioContext();
+  if (!context || !successBuffer) return;
+  if (context.state === "suspended") context.resume();
+
+  const source = context.createBufferSource();
+  const gain = context.createGain();
+  source.buffer = successBuffer;
+  gain.gain.setValueAtTime(0.28, context.currentTime);
+  source.connect(gain).connect(context.destination);
+  source.start(0, 0.05);
 }
 
 function primeSuccessSound() {
   if (soundPrimed) return;
   soundPrimed = true;
-  const originalVolume = successSound.volume;
-  successSound.volume = 0;
-  successSound.play()
-    .then(() => {
-      successSound.pause();
-      successSound.currentTime = 0;
-      successSound.volume = originalVolume;
-    })
-    .catch(() => {
-      successSound.volume = originalVolume;
-    });
+  const context = getAudioContext();
+  if (!context) return;
+  if (context.state === "suspended") context.resume();
+  loadSuccessSound();
 }
 
 function selectTile(button, item, side) {
@@ -764,5 +792,6 @@ prevFlashButton.addEventListener("click", () => moveFlash(-1));
 nextFlashButton.addEventListener("click", () => moveFlash(1));
 window.addEventListener("resize", drawMapCurves);
 window.addEventListener("load", () => {
+  loadSuccessSound();
   if (screens.map.classList.contains("active")) scrollMapToBottom();
 });
