@@ -133,9 +133,11 @@ let activeStartLevel = "N5";
 let flashDeck = [];
 let flashIndex = 0;
 let flashRevealed = false;
-const successSound = new Audio("./assets/sounds/correct-answer-tone.wav");
+const successSound = new Audio("./assets/sounds/air-in-a-hit.wav");
 successSound.preload = "auto";
-successSound.volume = 0.45;
+successSound.volume = 0.32;
+successSound.load();
+let soundPrimed = false;
 
 function getLevelLabel(level) {
   return level === "CHALLENGE" ? "挑战" : level;
@@ -538,6 +540,22 @@ function playSuccessSound() {
   successSound.play().catch(() => {});
 }
 
+function primeSuccessSound() {
+  if (soundPrimed) return;
+  soundPrimed = true;
+  const originalVolume = successSound.volume;
+  successSound.volume = 0;
+  successSound.play()
+    .then(() => {
+      successSound.pause();
+      successSound.currentTime = 0;
+      successSound.volume = originalVolume;
+    })
+    .catch(() => {
+      successSound.volume = originalVolume;
+    });
+}
+
 function selectTile(button, item, side) {
   if (finished || isResolving || button.disabled) return;
   startTimer();
@@ -735,6 +753,7 @@ nextButton.addEventListener("click", () => {
   resultScreen.classList.remove("show");
   startStage(nextStage);
 });
+document.addEventListener("pointerdown", primeSuccessSound, { once: true });
 startFlashButton.addEventListener("click", startFlashReview);
 flashCard.addEventListener("click", () => {
   flashRevealed = !flashRevealed;
